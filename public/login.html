@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+
+    <!-- Estilos del layout principal de autenticación (login + registro) -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Montserrat", sans-serif;
+        }
+
+        body{
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f4f3;
+        }
+
+        /* Tarjeta principal que contiene los dos paneles: login y registro */
+        .Contenedor{
+            width: 1000px;
+            height: 600px;
+            display: flex;
+            position: relative;
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgb(0, 0, 0, 0.3);
+            transition: 0.5s ease-in-out;
+        }
+
+        .contenedor-form{
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+        }
+
+        .contenedor-form form{
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.5s ease-in-out;
+            padding: 0 1.5rem;
+            row-gap: 2px;
+            width: 100%;
+        }
+
+        /* El formulario de registro tiene scroll interno */
+        .contenedor-form form.sign-up{
+            justify-content: flex-start;
+            align-items: center;
+            padding-top: 1.2rem;
+            padding-bottom: 1.2rem;
+            max-width: 500px;
+            margin: 0 auto;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        /* Scrollbar personalizado para el formulario de registro */
+        .contenedor-form form.sign-up::-webkit-scrollbar{
+            width: 6px;
+        }
+
+        .contenedor-form form.sign-up::-webkit-scrollbar-track{
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .contenedor-form form.sign-up::-webkit-scrollbar-thumb{
+            background: #3ab397;
+            border-radius: 10px;
+        }
+
+        .contenedor-form form.sign-up::-webkit-scrollbar-thumb:hover{
+            background: #2D6A4F;
+        }
+
+        /* Fila de dos columnas para organizar inputs del registro */
+        .form-row{
+            display: flex;
+            gap: 12px;
+            width: 100%;
+            max-width: 480px;
+            justify-content: center;
+        }
+
+        .form-row .field{
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            max-width: 234px;
+        }
+
+        /* En el registro, los labels e inputs usan todo el ancho de la columna */
+        .contenedor-form form.sign-up label{
+            width: 100%;
+        }
+
+        .contenedor-form form.sign-up .contenedor-input{
+            width: 100%;
+        }
+
+        .contenedor-form h2{
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 26px;
+        }
+
+        .contenedor-form span.subtitle{
+            font-size: 12px;
+            margin-bottom: 10px;
+            color: #6b7280;
+            text-align: center;
+        }
+
+        .social-networks{
+            display: flex;
+            gap: 12px;
+            margin: 6px 0 14px;
+        }
+
+        .social-networks ion-icon{
+            border: 1px solid #c9cccb;
+            border-radius: 6px;
+            padding: 8px;
+            cursor: pointer;
+        }
+
+        .contenedor-form label{
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            color: #6b7280;
+            margin: 2px 0;
+        }
+
+        .contenedor-input{
+            width: 100%;
+            height: 40px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            padding: 0 15px;
+            background-color: #eee;
+            border-radius: 6px;
+        }
+
+        .contenedor-input input,
+        .contenedor-input select{
+            border: none;
+            outline: none;
+            width: 100%;
+            height: 100%;
+            background-color: inherit;
+            font-size: 13px;
+        }
+
+        .contenedor-form a{
+            font-size: 13px;
+            color: #3498db;
+            text-decoration: none;
+            margin-bottom: 10px;
+            margin-top: 2px;
+            text-align: right;
+        }
+
+        .contenedor-form form.sign-up a{
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .button{
+            width: 180px;
+            height: 50px;
+            font-size: 15px;
+            border: none;
+            border-radius: 999px;
+            cursor: pointer;
+            margin-top: 10px;
+            background-color: #3ab397;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            line-height: 1;
+            padding: 0;
+        }
+
+        /* Asegurar que tanto el botón de login como el de registro compartan exactamente el mismo alto */
+        #submitLogin,
+        #submitRegister{
+            height: 50px;
+        }
+
+        /* Centrar visualmente los botones de acción en ambos formularios y asegurar mismo tamaño */
+        .contenedor-form form .button{
+            align-self: center;
+            width: 180px;
+            height: 50px;
+        }
+
+        .contenedor-form form.sign-up .button{
+            margin-top: 15px;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(58, 179, 151, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .contenedor-form form.sign-up .button:hover{
+            background-color: #2D6A4F;
+            box-shadow: 0 4px 12px rgba(58, 179, 151, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .contenedor-form form.sign-up .button:active{
+            transform: translateY(0);
+        }
+
+        .contenedor-form form.sign-up #registerError{
+            width: 100%;
+            max-width: 480px;
+            text-align: center;
+        }
+
+        .button[disabled]{
+            opacity: .7;
+            cursor: not-allowed;
+        }
+
+        .spinner{
+            width: 16px;
+            height: 16px;
+            border-radius: 999px;
+            border: 2px solid rgba(255,255,255,.95);
+            border-right-color: transparent;
+            animation: spin .6s linear infinite;
+        }
+
+        /* Animación formulario */
+        .sign-up{
+            transform: translateX(-100%);
+        }
+
+        .Contenedor.toggle .sign-in{
+            transform: translateX(100%);
+        }
+        .Contenedor.toggle .sign-up{
+            transform: translateX(0);
+        }
+
+        /* Welcome */
+        /* Panel derecho con mensaje de bienvenida y CTA de cambio de modo */
+        .contenedor-welcome{
+            position: absolute;
+            width: 50%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            transform: translateX(100%);
+            background-color:  #3AB397;
+            transition: transform 0.5s ease-in-out, border-radius 0.5s ease-in-out;
+            overflow: hidden;
+            border-radius: 50% 0 0 50%;
+        }
+
+        .Contenedor.toggle .contenedor-welcome{
+            transform: translateX(0);
+            border-radius: 0 50% 50% 0;
+            background-color: #3AA8AD;
+        }
+
+        .contenedor-welcome .welcome{
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            padding: 0 50px;
+            color: white;
+            transition: transform 0.5s ease-in-out;
+            text-align: center;
+        }
+        .welcome-sign-in{
+            transform: translateX(100%);
+        }
+        .contenedor-welcome h3{
+            font-size: 32px;
+        }
+        .contenedor-welcome p{
+            font-size: 14px;
+        }
+
+        .contenedor-welcome .button{
+          border: 2px solid white;
+          background-color: transparent;
+        }
+
+        .Contenedor.toggle .welcome-sign-in{
+            transform: translateX(0);
+        }
+
+        .Contenedor.toggle .welcome-sign-up{
+            transform: translateX(-100%);
+        }
+
+        .error-text{
+            font-size: 12px;
+            color: #b91c1c;
+            margin-top: 4px;
+        }
+
+        .contenedor-form form.sign-up .error-text{
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .error-text small{
+            display: block;
+            font-size: 11px;
+            color: #b91c1c;
+            margin-top: 2px;
+        }
+
+        .modal{
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active{
+            display: flex;
+        }
+
+        .modal-content{
+            background-color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            max-width: 700px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        .modal-content #closeModal{
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #64748b;
+            line-height: 1;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s;
+        }
+
+        .modal-content #closeModal:hover{
+            color: #2D6A4F;
+        }
+
+        .modal-content h2{
+            margin-bottom: 0.5rem;
+            margin-top: 0;
+            color: #2D6A4F;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .modal-content p{
+            margin-bottom: 1.5rem;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .modal-content form{
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .modal-content .form-row{
+            display: flex;
+            gap: 1rem;
+            width: 100%;
+        }
+
+        .modal-content .form-row .field{
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-content label{
+            font-size: 12px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .modal-content select,
+        .modal-content input[type="text"]{
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #374151;
+            background-color: #fff;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .modal-content select:focus,
+        .modal-content input[type="text"]:focus{
+            outline: none;
+            border-color: #3ab397;
+            box-shadow: 0 0 0 3px rgba(58, 179, 151, 0.1);
+        }
+
+        .modal-content select{
+            cursor: pointer;
+        }
+
+        .modal-content #securityError{
+            width: 100%;
+            text-align: center;
+            margin-top: 0.5rem;
+        }
+
+        .modal-content .button{
+            margin-top: 1rem;
+            align-self: center;
+        }
+
+        .error-text{
+            width: 100%;
+            font-size: 12px;
+            color: #b91c1c;
+            margin-top: 4px;
+            min-height: 1em;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="Contenedor">
+        <!-- FORM LOGIN -->
+        <div class="contenedor-form">
+            <form class="sign-in" id="loginForm" autocomplete="on">
+                <h2>Iniciar sesión</h2>
+                <span class="subtitle">Usa tu correo y contraseña para acceder.</span>
+
+                <div class="social-networks">
+                    <ion-icon name="logo-twitter"></ion-icon>
+                    <ion-icon name="logo-instagram"></ion-icon>
+                </div>
+
+                <label for="loginCorreo">Correo electrónico</label>
+                <div class="contenedor-input">
+                    <ion-icon name="mail-outline"></ion-icon>
+                    <input type="email" id="loginCorreo" autocomplete="email" required placeholder="tu@correo.com">
+                </div>
+
+                <label for="loginPassword">Contraseña</label>
+                <div class="contenedor-input">
+                    <ion-icon name="lock-closed-outline"></ion-icon>
+                    <input type="password" id="loginPassword" autocomplete="current-password" required placeholder="••••••••">
+                </div>
+
+                <a href="#" id="forgotPasswordLink">¿Olvidaste la contraseña?</a>
+
+                <button type="submit" class="button" id="submitLogin">Iniciar sesión</button>
+            </form>
+        </div>
+
+        <!-- FORM REGISTRO -->
+        <div class="contenedor-form">
+            <form class="sign-up" id="registerForm" autocomplete="on">
+                <h2>Registrarse</h2>
+                <span class="subtitle">Regístrate con tus datos personales para usar todas las funciones.</span>
+
+                <div class="social-networks">
+                    <ion-icon name="logo-twitter"></ion-icon>
+                    <ion-icon name="logo-instagram"></ion-icon>
+                </div>
+
+                <!-- Datos personales -->
+                <div class="form-row">
+                    <div class="field">
+                        <label for="primerNombre">Primer Nombre *</label>
+                        <div class="contenedor-input">
+                            <ion-icon name="person-outline"></ion-icon>
+                            <input type="text" id="primerNombre" required pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$" placeholder="Primer nombre">
+                        </div>
+                        <small class="error-text" id="errorPrimerNombre"></small>
+                    </div>
+                    <div class="field">
+                        <label for="segundoNombre">Segundo Nombre</label>
+                        <div class="contenedor-input">
+                            <ion-icon name="person-outline"></ion-icon>
+                            <input type="text" id="segundoNombre" pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]*$" placeholder="Segundo nombre">
+                        </div>
+                        <small class="error-text" id="errorSegundoNombre"></small>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="field">
+                        <label for="primerApellido">Primer Apellido *</label>
+                        <div class="contenedor-input">
+                            <ion-icon name="person-outline"></ion-icon>
+                            <input type="text" id="primerApellido" required pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$" placeholder="Primer apellido">
+                        </div>
+                        <small class="error-text" id="errorPrimerApellido"></small>
+                    </div>
+                    <div class="field">
+                        <label for="segundoApellido">Segundo Apellido</label>
+                        <div class="contenedor-input">
+                            <ion-icon name="person-outline"></ion-icon>
+                            <input type="text" id="segundoApellido" pattern="^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]*$" placeholder="Segundo apellido">
+                        </div>
+                        <small class="error-text" id="errorSegundoApellido"></small>
+                    </div>
+                </div>
+
+                <!-- Tipo de persona y Nacionalidad -->
+                <div class="form-row">
+                    <div class="field">
+                        <label for="tipoPersona">Tipo de Persona *</label>
+                        <div class="contenedor-input">
+                            <ion-icon name="people-outline"></ion-icon>
+                            <select id="tipoPersona" required>
+                                <option value="">Seleccione</option>
+                                <option value="Natural">Natural</option>
+                                <option value="Juridica">Jurídica</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="nacionalidad">Nacionalidad *</label>
+                        <div class="contenedor-input">
+                            <ion-icon name="flag-outline"></ion-icon>
+                            <select id="nacionalidad" required>
+                                <option value="">Seleccione</option>
+                                <option value="Venezolano">Venezolano</option>
+                                <option value="Extranjero">Extranjero</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Identificación -->
+                <div class="form-row" style="justify-content: flex-start;">
+                    <div class="field" style="max-width: 234px;">
+                        <label for="cedula">Cédula *</label>
+                        <div class="contenedor-input">
+                            <ion-icon name="card-outline"></ion-icon>
+                            <input type="number" id="cedula" required min="1000000" max="999999999" placeholder="7-9 dígitos">
+                        </div>
+                        <small class="error-text" id="errorCedula"></small>
+                    </div>
+                </div>
+
+                <!-- Estado y Municipio -->
+                <div class="form-row">
+                    <div class="field">
+                        <label for="estado">Estado *</label>
+                        <div class="contenedor-input">
+                            <ion-icon name="location-outline"></ion-icon>
+                            <select id="estado" required>
+                                <option value="">Seleccione un estado</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="municipio">Municipio *</label>
+                        <div class="contenedor-input">
+                            <ion-icon name="map-outline"></ion-icon>
+                            <select id="municipio" required disabled>
+                                <option value="">Primero seleccione un estado</option>
+                            </select>
+                        </div>
+                        <small class="error-text" id="errorMunicipio"></small>
+                    </div>
+                </div>
+
+                <!-- Contacto -->
+                <div class="form-row">
+                    <div class="field">
+                        <label for="telefono">Teléfono *</label>
+                        <div class="contenedor-input">
+                            <ion-icon name="call-outline"></ion-icon>
+                            <input type="tel" id="telefono" required pattern="^\d{11}$" placeholder="11 dígitos" maxlength="11">
+                        </div>
+                        <small class="error-text" id="errorTelefono"></small>
+                    </div>
+                    <div class="field">
+                        <label for="direccion">Dirección *</label>
+                        <div class="contenedor-input">
+                            <ion-icon name="home-outline"></ion-icon>
+                            <input type="text" id="direccion" required minlength="4" placeholder="Mínimo 4 caracteres">
+                        </div>
+                        <small class="error-text" id="errorDireccion"></small>
+                    </div>
+                </div>
+
+                <!-- Acceso -->
+                <div class="form-row" style="justify-content: flex-start;">
+                    <div class="field" style="max-width: 234px;">
+                        <label for="registerCorreo">Correo electrónico</label>
+                        <div class="contenedor-input">
+                            <ion-icon name="mail-outline"></ion-icon>
+                            <input type="email" id="registerCorreo" required autocomplete="email" placeholder="tu@correo.com">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="field">
+                        <label for="registerPassword">Contraseña *</label>
+                        <div class="contenedor-input">
+                            <ion-icon name="lock-closed-outline"></ion-icon>
+                            <input type="password" id="registerPassword" required autocomplete="new-password" minlength="6" placeholder="Mínimo 6 caracteres">
+                        </div>
+                        <small class="error-text" id="errorPassword"></small>
+                    </div>
+                    <div class="field">
+                        <label for="registerPassword2">Confirmar contraseña *</label>
+                        <div class="contenedor-input">
+                            <ion-icon name="lock-closed-outline"></ion-icon>
+                            <input type="password" id="registerPassword2" required autocomplete="new-password" placeholder="Repite la contraseña">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="registerError" class="error-text"></div>
+
+                <button type="submit" class="button" id="submitRegister">Continuar</button>
+            </form>
+        </div>
+
+        <!-- Modal de Preguntas de Seguridad -->
+        <div id="securityQuestionsModal" class="modal">
+            <div class="modal-content">
+                <button type="button" id="closeModal">&times;</button>
+                <h2>Preguntas de Seguridad</h2>
+                <p>Selecciona 3 preguntas distintas y proporciona sus respuestas</p>
+                <form id="securityQuestionsForm">
+                    <div class="form-row">
+                        <div class="field">
+                            <label for="pregunta1">Pregunta 1 *</label>
+                            <select id="pregunta1" required>
+                                <option value="">Seleccione una pregunta</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label for="respuesta1">Respuesta 1 *</label>
+                            <input type="text" id="respuesta1" required placeholder="Tu respuesta">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="field">
+                            <label for="pregunta2">Pregunta 2 *</label>
+                            <select id="pregunta2" required>
+                                <option value="">Seleccione una pregunta</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label for="respuesta2">Respuesta 2 *</label>
+                            <input type="text" id="respuesta2" required placeholder="Tu respuesta">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="field">
+                            <label for="pregunta3">Pregunta 3 *</label>
+                            <select id="pregunta3" required>
+                                <option value="">Seleccione una pregunta</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label for="respuesta3">Respuesta 3 *</label>
+                            <input type="text" id="respuesta3" required placeholder="Tu respuesta">
+                        </div>
+                    </div>
+                    <div id="securityError" class="error-text"></div>
+                    <button type="submit" class="button" id="submitSecurityQuestions">Registrarse</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Panel de bienvenida -->
+        <div class="contenedor-welcome">
+            <div class="welcome-sign-up welcome">
+                <h3>Bienvenido!</h3>
+                <p>Ingrese sus datos personales para usar todas las funciones del sitio</p>
+                <button class="button" id="btn-sign-up">Registrarse</button>
+            </div>
+
+            <div class="welcome-sign-in welcome">
+                <h3>Hola!</h3>
+                <p>Inicia sesión con tus credenciales para continuar.</p>
+                <button class="button" id="btn-sign-in">Iniciar sesión</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Librerías externas -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Lógica JS-->
+    <script>
+        const contenedor = document.querySelector('.Contenedor');
+        const btnIniciarSesion = document.getElementById('btn-sign-in');
+        const btnRegistrarse = document.getElementById('btn-sign-up');
+
+        const formularioLogin = document.getElementById('loginForm');
+        const formularioRegistro = document.getElementById('registerForm');
+
+        const correoLogin = document.getElementById('loginCorreo');
+        const contrasenaLogin = document.getElementById('loginPassword');
+        const enviarLogin = document.getElementById('submitLogin');
+
+        const primerNombre = document.getElementById('primerNombre');
+        const segundoNombre = document.getElementById('segundoNombre');
+        const primerApellido = document.getElementById('primerApellido');
+        const segundoApellido = document.getElementById('segundoApellido');
+        const tipoPersona = document.getElementById('tipoPersona');
+        const nacionalidad = document.getElementById('nacionalidad');
+        const cedula = document.getElementById('cedula');
+        const estado = document.getElementById('estado');
+        const municipio = document.getElementById('municipio');
+        const telefono = document.getElementById('telefono');
+        const direccion = document.getElementById('direccion');
+        const correoRegistro = document.getElementById('registerCorreo');
+        const contrasenaRegistro = document.getElementById('registerPassword');
+        const confirmarContrasena = document.getElementById('registerPassword2');
+        const enviarRegistro = document.getElementById('submitRegister');
+        const errorRegistro = document.getElementById('registerError');
+        const modalSeguridad = document.getElementById('securityQuestionsModal');
+        const formularioSeguridad = document.getElementById('securityQuestionsForm');
+        const pregunta1 = document.getElementById('pregunta1');
+        const pregunta2 = document.getElementById('pregunta2');
+        const pregunta3 = document.getElementById('pregunta3');
+        const respuesta1 = document.getElementById('respuesta1');
+        const respuesta2 = document.getElementById('respuesta2');
+        const respuesta3 = document.getElementById('respuesta3');
+        const enviarPreguntasSeguridad = document.getElementById('submitSecurityQuestions');
+        const errorSeguridad = document.getElementById('securityError');
+
+        let datosRegistro = null;
+
+        const notificar = (icono, titulo, texto) => Swal.fire({
+            icon: icono,
+            title: titulo,
+            text: texto,
+            confirmButtonColor: '#3ab397'
+        });
+
+        const enviarJSON = async (url, cuerpo) => {
+            const respuesta = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(cuerpo)
+            });
+            const datos = await respuesta.json().catch(() => ({}));
+            return { ok: respuesta.ok, datos };
+        };
+
+        // --- Recuperar contraseña: paso 1 (email + cédula) y paso 2 (preguntas de seguridad) ---
+        const enlaceOlvidoContrasena = document.getElementById('forgotPasswordLink');
+
+        enlaceOlvidoContrasena?.addEventListener('click', async (e) => {
+            e.preventDefault();
+
+            // Paso 1: pedir correo y cédula
+            const paso1 = await Swal.fire({
+                title: 'Recuperar contraseña',
+                html: `
+                    <input id="swal-recover-correo" class="swal2-input" placeholder="Correo electrónico" type="email">
+                    <input id="swal-recover-cedula" class="swal2-input" placeholder="Cédula" type="number">
+                `,
+                focusConfirm: false,
+                showCancelButton: true,
+                confirmButtonText: 'Continuar',
+                cancelButtonText: 'Cancelar',
+                preConfirm: () => {
+                    const correoEl = document.getElementById('swal-recover-correo');
+                    const cedulaEl = document.getElementById('swal-recover-cedula');
+                    const correo = correoEl && correoEl.value ? correoEl.value.trim() : '';
+                    const cedula = cedulaEl && cedulaEl.value ? cedulaEl.value.trim() : '';
+                    if (!correo || !cedula) {
+                        Swal.showValidationMessage('Debes ingresar correo y cédula');
+                        return false;
+                    }
+                    return { correo, cedula };
+                }
+            });
+
+            if (!paso1.value) return;
+
+            const { correo, cedula } = paso1.value;
+
+            try {
+                const { datos } = await enviarJSON('/recover-lookup', {
+                    correo: String(correo || '').toLowerCase(),
+                    cedula: String(cedula || '').trim()
+                });
+
+                if (!datos || !datos.found || !datos.questions || datos.questions.length < 3) {
+                    return notificar('error', 'Usuario no encontrado', datos && datos.error ? datos.error : 'El usuario no tiene preguntas de seguridad configuradas.');
+                }
+
+                const preguntas = datos.questions;
+
+                const paso2 = await Swal.fire({
+                    title: 'Preguntas de seguridad',
+                    html: preguntas.map(q => `<div style="margin-bottom: 20px;"><label style="display: block; margin-bottom: 8px; font-size: 14px; color: #374151; text-align: center; font-weight: 600;">${q.pregunta}</label><input id="swal-q${q.posicion}" class="swal2-input" placeholder="Tu respuesta" style="margin: 0 auto; width: 100%; max-width: 400px;"></div>`).join(''),
+                    focusConfirm: false,
+                    showCancelButton: true,
+                    confirmButtonText: 'Verificar respuestas',
+                    cancelButtonText: 'Cancelar',
+                    preConfirm: () => {
+                        const respuestas = preguntas.map(q => document.getElementById(`swal-q${q.posicion}`)?.value?.trim() || '');
+                        if (respuestas.some(r => !r)) {
+                            Swal.showValidationMessage('Responde las tres preguntas');
+                            return false;
+                        }
+                        return respuestas;
+                    }
+                });
+                
+                if (!paso2.value) return;
+                
+                const { datos: datosVerificacion } = await enviarJSON('/verify-answers', {
+                    cedula: datos.cedula,
+                    respuestas: paso2.value
+                });
+                
+                if (!datosVerificacion?.success) {
+                    return notificar('error', 'Respuestas incorrectas', datosVerificacion?.error || 'Las respuestas no coinciden con las registradas.');
+                }
+                
+                const paso3 = await Swal.fire({
+                    title: 'Nueva contraseña',
+                    html: '<input id="swal-new-password" class="swal2-input" type="password" placeholder="Nueva contraseña" style="margin: 0 auto; width: 100%; max-width: 400px;"><input id="swal-confirm-password" class="swal2-input" type="password" placeholder="Confirmar contraseña" style="margin: 0 auto; width: 100%; max-width: 400px;">',
+                    focusConfirm: false,
+                    showCancelButton: true,
+                    confirmButtonText: 'Cambiar contraseña',
+                    cancelButtonText: 'Cancelar',
+                    preConfirm: () => {
+                        const nuevaContrasena = document.getElementById('swal-new-password')?.value || '';
+                        const confirmarContrasena = document.getElementById('swal-confirm-password')?.value || '';
+                        if (!nuevaContrasena || !confirmarContrasena) {
+                            Swal.showValidationMessage('Debes completar ambos campos');
+                            return false;
+                        }
+                        if (nuevaContrasena !== confirmarContrasena) {
+                            Swal.showValidationMessage('Las contraseñas no coinciden');
+                            return false;
+                        }
+                        if (nuevaContrasena.length < 6) {
+                            Swal.showValidationMessage('La contraseña debe tener al menos 6 caracteres');
+                            return false;
+                        }
+                        return { nuevaPassword: nuevaContrasena, confirmPassword: confirmarContrasena };
+                    }
+                });
+                
+                if (!paso3.value) return;
+                
+                const { datos: datosFinales } = await enviarJSON('/recover-password', {
+                    cedula: datos.cedula,
+                    respuestas: paso2.value,
+                    nuevaPassword: paso3.value.nuevaPassword,
+                    confirmPassword: paso3.value.confirmPassword
+                });
+                
+                notificar(datosFinales?.success ? 'success' : 'error', 
+                    datosFinales?.success ? 'Contraseña actualizada' : 'Error',
+                    datosFinales?.success ? 'Tu contraseña ha sido cambiada exitosamente.' : (datosFinales?.error || 'No se pudo cambiar la contraseña.'));
+            } catch (err) {
+                notificar('error', 'Error de conexión', 'Inténtalo nuevamente.');
+            }
+        });
+
+        const establecerCarga = (boton, cargando, etiqueta) => {
+            if (!boton) return;
+            boton.disabled = !!cargando;
+            if (cargando) {
+                boton.innerHTML = `<span class="spinner"></span>${etiqueta}`;
+            } else {
+                boton.textContent = etiqueta;
+            }
+        };
+
+        // Toggle visual entre login y registro (misma animación original)
+        btnIniciarSesion?.addEventListener('click', () => {
+            contenedor.classList.remove('toggle');
+        });
+
+        btnRegistrarse?.addEventListener('click', () => {
+            contenedor.classList.add('toggle');
+        });
+
+        // LOGIN
+        formularioLogin.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const correo = correoLogin.value.trim().toLowerCase();
+            const contrasena = contrasenaLogin.value;
+
+            try {
+                establecerCarga(enviarLogin, true, 'Ingresando...');
+                const { datos } = await enviarJSON('/login', { correo, password: contrasena });
+
+                if (datos.success) {
+                    window.location.href = '/acceso';
+                } else {
+                    notificar('error', 'Error', datos.error || 'No se pudo iniciar sesión');
+                }
+            } catch (err) {
+                notificar('error', 'Error de conexión', 'Inténtalo nuevamente.');
+            } finally {
+                establecerCarga(enviarLogin, false, 'Iniciar sesión');
+            }
+        });
+
+        // Validaciones
+        const validarSoloTexto = (valor, nombreCampo) => {
+            if (!valor) return { valido: false, mensaje: `${nombreCampo} es requerido` };
+            if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/.test(valor)) {
+                return { valido: false, mensaje: `${nombreCampo} solo debe contener letras` };
+            }
+            return { valido: true };
+        };
+
+        const validarCedula = (valor) => {
+            if (!valor) return { valido: false, mensaje: 'Cédula es requerida' };
+            const num = parseInt(valor, 10);
+            if (isNaN(num) || num < 1000000 || num > 999999999) {
+                return { valido: false, mensaje: 'La cédula debe tener entre 7 y 9 dígitos' };
+            }
+            return { valido: true };
+        };
+
+        const validarTelefono = (valor) => {
+            if (!valor) return { valido: false, mensaje: 'Teléfono es requerido' };
+            if (!/^\d{11}$/.test(valor)) {
+                return { valido: false, mensaje: 'El teléfono debe tener exactamente 11 dígitos' };
+            }
+            return { valido: true };
+        };
+
+        const validarDireccion = (valor) => {
+            if (!valor) return { valido: false, mensaje: 'Dirección es requerida' };
+            if (valor.trim().length < 4) {
+                return { valido: false, mensaje: 'La dirección debe tener al menos 4 caracteres' };
+            }
+            return { valido: true };
+        };
+
+        const validarContrasena = (valor) => {
+            if (!valor) return { valido: false, mensaje: 'Contraseña es requerida' };
+            if (valor.length < 6) {
+                return { valido: false, mensaje: 'La contraseña debe tener al menos 6 caracteres' };
+            }
+            return { valido: true };
+        };
+
+        const limpiarErrores = () => {
+            document.querySelectorAll('.error-text').forEach(el => el.textContent = '');
+        };
+
+        const cargarEstados = async () => {
+            try {
+                const respuesta = await fetch('/estados');
+                const datos = await respuesta.json();
+                if (datos.estados?.length) {
+                    estado.innerHTML = '<option value="">Seleccione un estado</option>';
+                    datos.estados.forEach(e => {
+                        const opcion = document.createElement('option');
+                        opcion.value = e.estado;
+                        opcion.textContent = e.estado;
+                        estado.appendChild(opcion);
+                    });
+                }
+            } catch (err) {
+                console.error('Error al cargar estados:', err);
+            }
+        };
+
+        const cargarMunicipios = async (nombreEstado) => {
+            if (!nombreEstado) {
+                municipio.innerHTML = '<option value="">Primero seleccione un estado</option>';
+                municipio.disabled = true;
+                municipio.value = '';
+                return;
+            }
+            try {
+                municipio.disabled = true;
+                municipio.innerHTML = '<option value="">Cargando municipios...</option>';
+                const respuesta = await fetch(`/municipios?estado=${encodeURIComponent(nombreEstado)}`);
+                const datos = await respuesta.json();
+                municipio.innerHTML = '<option value="">Seleccione un municipio</option>';
+                if (datos.municipios && datos.municipios.length > 0) {
+                    datos.municipios.forEach(m => {
+                        const opcion = document.createElement('option');
+                        opcion.value = m.municipio;
+                        opcion.textContent = m.municipio;
+                        municipio.appendChild(opcion);
+                    });
+                    municipio.disabled = false;
+                } else {
+                    municipio.innerHTML = '<option value="">No hay municipios disponibles</option>';
+                    municipio.disabled = true;
+                }
+            } catch (err) {
+                console.error('Error al cargar municipios:', err);
+                municipio.innerHTML = '<option value="">Error al cargar municipios</option>';
+                municipio.disabled = true;
+            }
+        };
+
+        estado.addEventListener('change', (e) => {
+            cargarMunicipios(e.target.value);
+        });
+
+        const cargarPreguntas = async () => {
+            try {
+                const respuesta = await fetch('/preguntas');
+                const datos = await respuesta.json();
+                if (datos.preguntas?.length) {
+                    [pregunta1, pregunta2, pregunta3].forEach(select => {
+                        select.innerHTML = '<option value="">Seleccione una pregunta</option>';
+                        datos.preguntas.forEach(p => {
+                            const opcion = document.createElement('option');
+                            opcion.value = p.id;
+                            opcion.textContent = p.pregunta;
+                            select.appendChild(opcion);
+                        });
+                    });
+                }
+            } catch (err) {
+                console.error('Error al cargar preguntas:', err);
+            }
+        };
+
+        const validarPreguntas = () => {
+            const [p1, p2, p3] = [pregunta1.value, pregunta2.value, pregunta3.value];
+            return p1 && p2 && p3 && p1 !== p2 && p1 !== p3 && p2 !== p3;
+        };
+
+        [pregunta1, pregunta2, pregunta3].forEach(select => {
+            select.addEventListener('change', () => {
+                errorSeguridad.textContent = (!validarPreguntas() && pregunta1.value && pregunta2.value && pregunta3.value) ? 'Debe seleccionar 3 preguntas distintas.' : '';
+            });
+        });
+
+        cargarEstados();
+        cargarPreguntas();
+
+        // Cerrar modal
+        document.getElementById('closeModal')?.addEventListener('click', () => {
+            modalSeguridad.classList.remove('active');
+            modalSeguridad.style.display = 'none';
+            datosRegistro = null;
+        });
+
+        modalSeguridad.addEventListener('click', (e) => {
+            if (e.target === modalSeguridad) {
+                modalSeguridad.classList.remove('active');
+                modalSeguridad.style.display = 'none';
+                datosRegistro = null;
+            }
+        });
+
+        // REGISTRO - Paso 1: Validar formulario
+        formularioRegistro.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            limpiarErrores();
+            errorRegistro.textContent = '';
+
+            let esValido = true;
+
+            // Validar nombres y apellidos
+            const valPrimerNombre = validarSoloTexto(primerNombre.value.trim(), 'Primer nombre');
+            if (!valPrimerNombre.valido) {
+                document.getElementById('errorPrimerNombre').textContent = valPrimerNombre.mensaje;
+                esValido = false;
+            }
+
+            if (segundoNombre.value.trim()) {
+                const valSegundoNombre = validarSoloTexto(segundoNombre.value.trim(), 'Segundo nombre');
+                if (!valSegundoNombre.valido) {
+                    document.getElementById('errorSegundoNombre').textContent = valSegundoNombre.mensaje;
+                    esValido = false;
+                }
+            }
+
+            const valPrimerApellido = validarSoloTexto(primerApellido.value.trim(), 'Primer apellido');
+            if (!valPrimerApellido.valido) {
+                document.getElementById('errorPrimerApellido').textContent = valPrimerApellido.mensaje;
+                esValido = false;
+            }
+
+            if (segundoApellido.value.trim()) {
+                const valSegundoApellido = validarSoloTexto(segundoApellido.value.trim(), 'Segundo apellido');
+                if (!valSegundoApellido.valido) {
+                    document.getElementById('errorSegundoApellido').textContent = valSegundoApellido.mensaje;
+                    esValido = false;
+                }
+            }
+
+            // Validar cédula
+            const valCedula = validarCedula(cedula.value.trim());
+            if (!valCedula.valido) {
+                document.getElementById('errorCedula').textContent = valCedula.mensaje;
+                esValido = false;
+            }
+
+            // Validar teléfono
+            const valTelefono = validarTelefono(telefono.value.trim());
+            if (!valTelefono.valido) {
+                document.getElementById('errorTelefono').textContent = valTelefono.mensaje;
+                esValido = false;
+            }
+
+            // Validar municipio
+            if (!municipio.value || municipio.disabled) {
+                document.getElementById('errorMunicipio').textContent = 'Municipio es requerido';
+                esValido = false;
+            }
+
+            // Validar dirección
+            const valDireccion = validarDireccion(direccion.value.trim());
+            if (!valDireccion.valido) {
+                document.getElementById('errorDireccion').textContent = valDireccion.mensaje;
+                esValido = false;
+            }
+
+            // Validar contraseña
+            const valContrasena = validarContrasena(contrasenaRegistro.value);
+            if (!valContrasena.valido) {
+                document.getElementById('errorPassword').textContent = valContrasena.mensaje;
+                esValido = false;
+            }
+
+            if (contrasenaRegistro.value !== confirmarContrasena.value) {
+                errorRegistro.textContent = 'Las contraseñas no coinciden.';
+                esValido = false;
+            }
+
+            if (!esValido) {
+                return notificar('warning', 'Datos inválidos', 'Por favor corrige los errores en el formulario.');
+            }
+
+            // Guardar datos del formulario
+            datosRegistro = {
+                correo: correoRegistro.value.trim().toLowerCase(),
+                password: contrasenaRegistro.value,
+                confirmPassword: confirmarContrasena.value,
+                tipoPersona: tipoPersona.value,
+                nacionalidad: nacionalidad.value,
+                primerNombre: primerNombre.value.trim(),
+                segundoNombre: segundoNombre.value.trim() || '',
+                primerApellido: primerApellido.value.trim(),
+                segundoApellido: segundoApellido.value.trim() || '',
+                cedula: cedula.value.trim(),
+                estado: estado.value,
+                municipio: municipio.value,
+                telefono: telefono.value.trim(),
+                direccion: direccion.value.trim()
+            };
+
+            // Asegurar que las preguntas estén cargadas antes de mostrar el modal
+            await cargarPreguntas();
+            
+            // Mostrar modal de preguntas de seguridad
+            if (modalSeguridad) {
+                modalSeguridad.classList.add('active');
+                modalSeguridad.style.display = 'flex';
+            } else {
+                notificar('error', 'Error', 'No se pudo abrir el modal de preguntas de seguridad.');
+            }
+        });
+
+        // REGISTRO - Paso 2: Guardar preguntas y registrar usuario
+        formularioSeguridad.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            errorSeguridad.textContent = '';
+
+            if (!validarPreguntas()) {
+                errorSeguridad.textContent = 'Debe seleccionar 3 preguntas distintas.';
+                return;
+            }
+
+            const respuestas = [respuesta1.value.trim(), respuesta2.value.trim(), respuesta3.value.trim()];
+            if (respuestas.some(r => !r)) {
+                errorSeguridad.textContent = 'Debe completar todas las respuestas.';
+                return;
+            }
+
+            const preguntas = [
+                { preguntaId: pregunta1.value, respuesta: respuestas[0], posicion: '1' },
+                { preguntaId: pregunta2.value, respuesta: respuestas[1], posicion: '2' },
+                { preguntaId: pregunta3.value, respuesta: respuestas[2], posicion: '3' }
+            ];
+
+            try {
+                establecerCarga(enviarPreguntasSeguridad, true, 'Registrando...');
+                const { datos } = await enviarJSON('/register', {
+                    ...datosRegistro,
+                    preguntas
+                });
+
+                if (datos.success) {
+                    notificar('success', 'Registro exitoso', 'Ahora puedes iniciar sesión.');
+                    modalSeguridad.classList.remove('active');
+                    modalSeguridad.style.display = 'none';
+                    contenedor.classList.remove('toggle');
+                    formularioRegistro.reset();
+                    formularioSeguridad.reset();
+                    datosRegistro = null;
+                } else {
+                    errorSeguridad.textContent = datos.error || 'No se pudo completar el registro.';
+                    notificar('error', 'Error', datos.error || 'No se pudo completar el registro');
+                }
+            } catch (err) {
+                errorSeguridad.textContent = 'Error de conexión. Inténtalo nuevamente.';
+                notificar('error', 'Error de conexión', 'Inténtalo nuevamente.');
+            } finally {
+                establecerCarga(enviarPreguntasSeguridad, false, 'Registrarse');
+            }
+        });
+    </script>
+
+    <!-- Ionicons -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+</body>
+</html>

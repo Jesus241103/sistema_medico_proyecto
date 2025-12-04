@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Acceso</title>
+  <style>
+    /* Layout mínimo del panel protegido al que se accede tras el login */
+    :root{ --bg:#f8fafc; --text:#0f172a; --muted:#64748b; --card:#fff; --border:#e5e7eb; --pri:#2D6A4F; }
+    *{ box-sizing:border-box; margin:0; padding:0; }
+    body{ font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background:var(--bg); color:var(--text); }
+    .nav{ display:flex; align-items:center; justify-content:space-between; gap:.75rem; padding:.8rem 1rem; background:#fff; border-bottom:1px solid var(--border); position:sticky; top:0; }
+    .brand{ font-weight:700; }
+    .muted{ color:var(--muted); font-weight:600; }
+    .logout{ background:#e11d48; color:#fff; border:none; border-radius:10px; padding:.55rem .9rem; cursor:pointer; font-weight:600; }
+    .logout:hover{ filter:brightness(1.03); }
+    .main{ padding: 1rem; }
+    .card{ background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1rem; max-width:720px; margin:1rem auto; box-shadow:0 6px 16px rgba(15,23,42,.06); }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="brand" id="userName">Usuario</div>
+    <button class="logout" id="logoutBtn">Cerrar sesión</button>
+  </header>
+  <main class="main">
+    <section class="card">
+      <p class="muted">Bienvenido al panel.</p>
+    </section>
+  </main>
+  <script>
+    async function verifyAuth(){
+      try{
+        const res = await fetch('/me', { cache: 'no-store' });
+        if(!res.ok || res.status === 403){
+          window.location.replace('/');
+          return false;
+        }
+        const data = await res.json().catch(()=>({}));
+        if(data && data.nombre){
+          document.getElementById('userName').textContent = data.nombre;
+        }
+        return true;
+      }catch(e){
+        window.location.replace('/');
+        return false;
+      }
+    }
+
+    async function loadUser(){
+      const isValid = await verifyAuth();
+      if(!isValid) return;
+    }
+
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      try{ 
+        await fetch('/logout', { method: 'POST', cache: 'no-store' });
+      }catch(e){}
+      window.location.replace('/');
+    });
+
+    window.addEventListener('pageshow', (e) => {
+      if(e.persisted){
+        verifyAuth();
+      }
+    });
+
+    loadUser();
+  </script>
+</body>
+</html>
