@@ -128,19 +128,6 @@
             text-align: center;
         }
 
-        .social-networks{
-            display: flex;
-            gap: 12px;
-            margin: 6px 0 14px;
-        }
-
-        .social-networks ion-icon{
-            border: 1px solid #c9cccb;
-            border-radius: 6px;
-            padding: 8px;
-            cursor: pointer;
-        }
-
         .contenedor-form label{
             font-size: 11px;
             text-transform: uppercase;
@@ -202,6 +189,19 @@
             gap: 6px;
             line-height: 1;
             padding: 0;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(58, 179, 151, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .button:hover{
+            background-color: #2D6A4F;
+            box-shadow: 0 4px 12px rgba(58, 179, 151, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .button:active{
+            transform: translateY(0);
         }
 
         /* Asegurar que tanto el botón de login como el de registro compartan exactamente el mismo alto */
@@ -215,23 +215,7 @@
             align-self: center;
             width: 180px;
             height: 50px;
-        }
-
-        .contenedor-form form.sign-up .button{
-            margin-top: 15px;
-            font-weight: 600;
-            box-shadow: 0 2px 8px rgba(58, 179, 151, 0.3);
-            transition: all 0.3s ease;
-        }
-
-        .contenedor-form form.sign-up .button:hover{
-            background-color: #2D6A4F;
-            box-shadow: 0 4px 12px rgba(58, 179, 151, 0.4);
-            transform: translateY(-2px);
-        }
-
-        .contenedor-form form.sign-up .button:active{
-            transform: translateY(0);
+            flex-shrink: 0;
         }
 
         .contenedor-form form.sign-up #registerError{
@@ -321,150 +305,7 @@
             transform: translateX(-100%);
         }
 
-        .error-text{
-            font-size: 12px;
-            color: #b91c1c;
-            margin-top: 4px;
-        }
-
-        .contenedor-form form.sign-up .error-text{
-            width: 100%;
-            max-width: 480px;
-        }
-
-        .error-text small{
-            display: block;
-            font-size: 11px;
-            color: #b91c1c;
-            margin-top: 2px;
-        }
-
-        .modal{
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal.active{
-            display: flex;
-        }
-
-        .modal-content{
-            background-color: white;
-            padding: 2rem;
-            border-radius: 15px;
-            max-width: 700px;
-            width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 0 20px rgba(0,0,0,0.3);
-            position: relative;
-        }
-
-        .modal-content #closeModal{
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: none;
-            border: none;
-            font-size: 28px;
-            cursor: pointer;
-            color: #64748b;
-            line-height: 1;
-            padding: 0;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: color 0.2s;
-        }
-
-        .modal-content #closeModal:hover{
-            color: #2D6A4F;
-        }
-
-        .modal-content h2{
-            margin-bottom: 0.5rem;
-            margin-top: 0;
-            color: #2D6A4F;
-            font-size: 24px;
-            font-weight: 600;
-        }
-
-        .modal-content p{
-            margin-bottom: 1.5rem;
-            color: #64748b;
-            font-size: 14px;
-        }
-
-        .modal-content form{
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .modal-content .form-row{
-            display: flex;
-            gap: 1rem;
-            width: 100%;
-        }
-
-        .modal-content .form-row .field{
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .modal-content label{
-            font-size: 12px;
-            font-weight: 600;
-            color: #374151;
-            margin-bottom: 6px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .modal-content select,
-        .modal-content input[type="text"]{
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid #d1d5db;
-            border-radius: 8px;
-            font-size: 14px;
-            color: #374151;
-            background-color: #fff;
-            transition: border-color 0.2s, box-shadow 0.2s;
-        }
-
-        .modal-content select:focus,
-        .modal-content input[type="text"]:focus{
-            outline: none;
-            border-color: #3ab397;
-            box-shadow: 0 0 0 3px rgba(58, 179, 151, 0.1);
-        }
-
-        .modal-content select{
-            cursor: pointer;
-        }
-
-        .modal-content #securityError{
-            width: 100%;
-            text-align: center;
-            margin-top: 0.5rem;
-        }
-
-        .modal-content .button{
-            margin-top: 1rem;
-            align-self: center;
-        }
+        /* Estilos del old modal eliminados; ahora se usa SweetAlert para configurar preguntas */
 
         .error-text{
             width: 100%;
@@ -487,11 +328,6 @@
             <form class="sign-in" id="loginForm" autocomplete="on">
                 <h2>Iniciar sesión</h2>
                 <span class="subtitle">Usa tu correo y contraseña para acceder.</span>
-
-                <div class="social-networks">
-                    <ion-icon name="logo-twitter"></ion-icon>
-                    <ion-icon name="logo-instagram"></ion-icon>
-                </div>
 
                 <label for="loginCorreo">Correo electrónico</label>
                 <div class="contenedor-input">
@@ -516,11 +352,6 @@
             <form class="sign-up" id="registerForm" autocomplete="on">
                 <h2>Registrarse</h2>
                 <span class="subtitle">Regístrate con tus datos personales para usar todas las funciones.</span>
-
-                <div class="social-networks">
-                    <ion-icon name="logo-twitter"></ion-icon>
-                    <ion-icon name="logo-instagram"></ion-icon>
-                </div>
 
                 <!-- Datos personales -->
                 <div class="form-row">
@@ -561,16 +392,16 @@
                     </div>
                 </div>
 
-                <!-- Tipo de persona y Nacionalidad -->
+                <!-- Sexo y Nacionalidad -->
                 <div class="form-row">
                     <div class="field">
-                        <label for="tipoPersona">Tipo de Persona *</label>
+                        <label for="sexo">Sexo *</label>
                         <div class="contenedor-input">
-                            <ion-icon name="people-outline"></ion-icon>
-                            <select id="tipoPersona" required>
+                            <ion-icon name="male-female-outline"></ion-icon>
+                            <select id="sexo" required>
                                 <option value="">Seleccione</option>
-                                <option value="Natural">Natural</option>
-                                <option value="Juridica">Jurídica</option>
+                                <option value="Masculino">Masculino</option>
+                                <option value="Femenino">Femenino</option>
                             </select>
                         </div>
                     </div>
@@ -677,54 +508,7 @@
             </form>
         </div>
 
-        <!-- Modal de Preguntas de Seguridad -->
-        <div id="securityQuestionsModal" class="modal">
-            <div class="modal-content">
-                <button type="button" id="closeModal">&times;</button>
-                <h2>Preguntas de Seguridad</h2>
-                <p>Selecciona 3 preguntas distintas y proporciona sus respuestas</p>
-                <form id="securityQuestionsForm">
-                    <div class="form-row">
-                        <div class="field">
-                            <label for="pregunta1">Pregunta 1 *</label>
-                            <select id="pregunta1" required>
-                                <option value="">Seleccione una pregunta</option>
-                            </select>
-                        </div>
-                        <div class="field">
-                            <label for="respuesta1">Respuesta 1 *</label>
-                            <input type="text" id="respuesta1" required placeholder="Tu respuesta">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="field">
-                            <label for="pregunta2">Pregunta 2 *</label>
-                            <select id="pregunta2" required>
-                                <option value="">Seleccione una pregunta</option>
-                            </select>
-                        </div>
-                        <div class="field">
-                            <label for="respuesta2">Respuesta 2 *</label>
-                            <input type="text" id="respuesta2" required placeholder="Tu respuesta">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="field">
-                            <label for="pregunta3">Pregunta 3 *</label>
-                            <select id="pregunta3" required>
-                                <option value="">Seleccione una pregunta</option>
-                            </select>
-                        </div>
-                        <div class="field">
-                            <label for="respuesta3">Respuesta 3 *</label>
-                            <input type="text" id="respuesta3" required placeholder="Tu respuesta">
-                        </div>
-                    </div>
-                    <div id="securityError" class="error-text"></div>
-                    <button type="submit" class="button" id="submitSecurityQuestions">Registrarse</button>
-                </form>
-            </div>
-        </div>
+        <!-- Configuración de preguntas de seguridad ahora se realiza con SweetAlert, no con un modal propio -->
 
         <!-- Panel de bienvenida -->
         <div class="contenedor-welcome">
@@ -762,7 +546,7 @@
         const segundoNombre = document.getElementById('segundoNombre');
         const primerApellido = document.getElementById('primerApellido');
         const segundoApellido = document.getElementById('segundoApellido');
-        const tipoPersona = document.getElementById('tipoPersona');
+        const sexo = document.getElementById('sexo');
         const nacionalidad = document.getElementById('nacionalidad');
         const cedula = document.getElementById('cedula');
         const estado = document.getElementById('estado');
@@ -774,16 +558,6 @@
         const confirmarContrasena = document.getElementById('registerPassword2');
         const enviarRegistro = document.getElementById('submitRegister');
         const errorRegistro = document.getElementById('registerError');
-        const modalSeguridad = document.getElementById('securityQuestionsModal');
-        const formularioSeguridad = document.getElementById('securityQuestionsForm');
-        const pregunta1 = document.getElementById('pregunta1');
-        const pregunta2 = document.getElementById('pregunta2');
-        const pregunta3 = document.getElementById('pregunta3');
-        const respuesta1 = document.getElementById('respuesta1');
-        const respuesta2 = document.getElementById('respuesta2');
-        const respuesta3 = document.getElementById('respuesta3');
-        const enviarPreguntasSeguridad = document.getElementById('submitSecurityQuestions');
-        const errorSeguridad = document.getElementById('securityError');
 
         let datosRegistro = null;
 
@@ -946,6 +720,13 @@
             const correo = correoLogin.value.trim().toLowerCase();
             const contrasena = contrasenaLogin.value;
 
+            if (!correo || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)) {
+                return notificar('warning', 'Datos inválidos', 'Ingrese un correo electrónico válido.');
+            }
+            if (!contrasena) {
+                return notificar('warning', 'Datos inválidos', 'Ingrese la contraseña.');
+            }
+
             try {
                 establecerCarga(enviarLogin, true, 'Ingresando...');
                 const { datos } = await enviarJSON('/login', { correo, password: contrasena });
@@ -1066,50 +847,14 @@
             try {
                 const respuesta = await fetch('/preguntas');
                 const datos = await respuesta.json();
-                if (datos.preguntas?.length) {
-                    [pregunta1, pregunta2, pregunta3].forEach(select => {
-                        select.innerHTML = '<option value="">Seleccione una pregunta</option>';
-                        datos.preguntas.forEach(p => {
-                            const opcion = document.createElement('option');
-                            opcion.value = p.id;
-                            opcion.textContent = p.pregunta;
-                            select.appendChild(opcion);
-                        });
-                    });
-                }
+                return datos.preguntas || [];
             } catch (err) {
                 console.error('Error al cargar preguntas:', err);
+                return [];
             }
         };
-
-        const validarPreguntas = () => {
-            const [p1, p2, p3] = [pregunta1.value, pregunta2.value, pregunta3.value];
-            return p1 && p2 && p3 && p1 !== p2 && p1 !== p3 && p2 !== p3;
-        };
-
-        [pregunta1, pregunta2, pregunta3].forEach(select => {
-            select.addEventListener('change', () => {
-                errorSeguridad.textContent = (!validarPreguntas() && pregunta1.value && pregunta2.value && pregunta3.value) ? 'Debe seleccionar 3 preguntas distintas.' : '';
-            });
-        });
 
         cargarEstados();
-        cargarPreguntas();
-
-        // Cerrar modal
-        document.getElementById('closeModal')?.addEventListener('click', () => {
-            modalSeguridad.classList.remove('active');
-            modalSeguridad.style.display = 'none';
-            datosRegistro = null;
-        });
-
-        modalSeguridad.addEventListener('click', (e) => {
-            if (e.target === modalSeguridad) {
-                modalSeguridad.classList.remove('active');
-                modalSeguridad.style.display = 'none';
-                datosRegistro = null;
-            }
-        });
 
         // REGISTRO - Paso 1: Validar formulario
         formularioRegistro.addEventListener('submit', async (e) => {
@@ -1118,6 +863,17 @@
             errorRegistro.textContent = '';
 
             let esValido = true;
+
+            // Validar selección de sexo y nacionalidad
+            if (!sexo.value) {
+                errorRegistro.textContent = 'Sexo es requerido.';
+                esValido = false;
+            }
+
+            if (!nacionalidad.value) {
+                errorRegistro.textContent = 'Nacionalidad es requerida.';
+                esValido = false;
+            }
 
             // Validar nombres y apellidos
             const valPrimerNombre = validarSoloTexto(primerNombre.value.trim(), 'Primer nombre');
@@ -1168,6 +924,12 @@
                 esValido = false;
             }
 
+            // Validar estado
+            if (!estado.value) {
+                errorRegistro.textContent = 'Estado es requerido.';
+                esValido = false;
+            }
+
             // Validar dirección
             const valDireccion = validarDireccion(direccion.value.trim());
             if (!valDireccion.valido) {
@@ -1187,88 +949,152 @@
                 esValido = false;
             }
 
+            // Validar correo
+            const correoVal = correoRegistro.value.trim().toLowerCase();
+            if (!correoVal || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correoVal)) {
+                errorRegistro.textContent = 'Correo electrónico inválido.';
+                esValido = false;
+            }
+
             if (!esValido) {
                 return notificar('warning', 'Datos inválidos', 'Por favor corrige los errores en el formulario.');
             }
 
-            // Guardar datos del formulario
-            datosRegistro = {
-                correo: correoRegistro.value.trim().toLowerCase(),
-                password: contrasenaRegistro.value,
-                confirmPassword: confirmarContrasena.value,
-                tipoPersona: tipoPersona.value,
-                nacionalidad: nacionalidad.value,
-                primerNombre: primerNombre.value.trim(),
-                segundoNombre: segundoNombre.value.trim() || '',
-                primerApellido: primerApellido.value.trim(),
-                segundoApellido: segundoApellido.value.trim() || '',
-                cedula: cedula.value.trim(),
-                estado: estado.value,
-                municipio: municipio.value,
-                telefono: telefono.value.trim(),
-                direccion: direccion.value.trim()
-            };
-
-            // Asegurar que las preguntas estén cargadas antes de mostrar el modal
-            await cargarPreguntas();
-            
-            // Mostrar modal de preguntas de seguridad
-            if (modalSeguridad) {
-                modalSeguridad.classList.add('active');
-                modalSeguridad.style.display = 'flex';
-            } else {
-                notificar('error', 'Error', 'No se pudo abrir el modal de preguntas de seguridad.');
-            }
-        });
-
-        // REGISTRO - Paso 2: Guardar preguntas y registrar usuario
-        formularioSeguridad.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            errorSeguridad.textContent = '';
-
-            if (!validarPreguntas()) {
-                errorSeguridad.textContent = 'Debe seleccionar 3 preguntas distintas.';
-                return;
-            }
-
-            const respuestas = [respuesta1.value.trim(), respuesta2.value.trim(), respuesta3.value.trim()];
-            if (respuestas.some(r => !r)) {
-                errorSeguridad.textContent = 'Debe completar todas las respuestas.';
-                return;
-            }
-
-            const preguntas = [
-                { preguntaId: pregunta1.value, respuesta: respuestas[0], posicion: '1' },
-                { preguntaId: pregunta2.value, respuesta: respuestas[1], posicion: '2' },
-                { preguntaId: pregunta3.value, respuesta: respuestas[2], posicion: '3' }
-            ];
-
             try {
-                establecerCarga(enviarPreguntasSeguridad, true, 'Registrando...');
-                const { datos } = await enviarJSON('/register', {
-                    ...datosRegistro,
-                    preguntas
+                establecerCarga(enviarRegistro, true, 'Verificando...');
+                const { ok, datos } = await enviarJSON('/register-check', {
+                    correo: correoVal,
+                    cedula: cedula.value.trim()
                 });
 
-                if (datos.success) {
+                if (!ok || !datos?.success) {
+                    const field = datos?.field;
+                    if (field === 'correo') {
+                        errorRegistro.textContent = datos.error || 'El correo ya se encuentra registrado.';
+                    } else if (field === 'cedula') {
+                        document.getElementById('errorCedula').textContent = datos.error || 'La cédula ya se encuentra registrada.';
+                    }
+                    return notificar('error', 'Error en registro', datos.error || 'No se pudo validar los datos.');
+                }
+
+                // Guardar datos del formulario solo si la cédula y el correo son válidos y únicos
+                datosRegistro = {
+                    correo: correoVal,
+                    password: contrasenaRegistro.value,
+                    confirmPassword: confirmarContrasena.value,
+                    sexo: sexo.value,
+                    nacionalidad: nacionalidad.value,
+                    primerNombre: primerNombre.value.trim(),
+                    segundoNombre: segundoNombre.value.trim() || '',
+                    primerApellido: primerApellido.value.trim(),
+                    segundoApellido: segundoApellido.value.trim() || '',
+                    cedula: cedula.value.trim(),
+                    estado: estado.value,
+                    municipio: municipio.value,
+                    telefono: telefono.value.trim(),
+                    direccion: direccion.value.trim()
+                };
+
+                const preguntasCatalogo = await cargarPreguntas();
+                if (!preguntasCatalogo.length) {
+                    return notificar('error', 'Error', 'No hay preguntas de seguridad disponibles.');
+                }
+
+                const optionsHtml = preguntasCatalogo.map(q => `<option value="${q.id}">${q.pregunta}</option>`).join('');
+
+                const swalResult = await Swal.fire({
+                    title: 'Preguntas de seguridad',
+                    html: `
+                        <div style="display:flex;flex-direction:column;gap:12px;text-align:left;">
+                            <div>
+                                <select id="swal-pregunta1" class="swal2-input" style="width:100%;">
+                                    <option value="">Seleccione una pregunta</option>
+                                    ${optionsHtml}
+                                </select>
+                                <input id="swal-respuesta1" class="swal2-input" placeholder="Respuesta 1">
+                            </div>
+                            <div>
+                                <select id="swal-pregunta2" class="swal2-input" style="width:100%;">
+                                    <option value="">Seleccione una pregunta</option>
+                                    ${optionsHtml}
+                                </select>
+                                <input id="swal-respuesta2" class="swal2-input" placeholder="Respuesta 2">
+                            </div>
+                            <div>
+                                <select id="swal-pregunta3" class="swal2-input" style="width:100%;">
+                                    <option value="">Seleccione una pregunta</option>
+                                    ${optionsHtml}
+                                </select>
+                                <input id="swal-respuesta3" class="swal2-input" placeholder="Respuesta 3">
+                            </div>
+                        </div>
+                    `,
+                    focusConfirm: false,
+                    showCancelButton: true,
+                    confirmButtonText: 'Registrarse',
+                    cancelButtonText: 'Cancelar',
+                    preConfirm: () => {
+                        const p1 = document.getElementById('swal-pregunta1').value;
+                        const p2 = document.getElementById('swal-pregunta2').value;
+                        const p3 = document.getElementById('swal-pregunta3').value;
+                        const r1 = document.getElementById('swal-respuesta1').value.trim();
+                        const r2 = document.getElementById('swal-respuesta2').value.trim();
+                        const r3 = document.getElementById('swal-respuesta3').value.trim();
+
+                        if (!p1 || !p2 || !p3) {
+                            Swal.showValidationMessage('Debe seleccionar las 3 preguntas.');
+                            return false;
+                        }
+                        if (p1 === p2 || p1 === p3 || p2 === p3) {
+                            Swal.showValidationMessage('Las preguntas deben ser distintas.');
+                            return false;
+                        }
+                        if (!r1 || !r2 || !r3) {
+                            Swal.showValidationMessage('Debe completar las tres respuestas.');
+                            return false;
+                        }
+
+                        return {
+                            preguntas: [
+                                { preguntaId: p1, respuesta: r1, posicion: '1' },
+                                { preguntaId: p2, respuesta: r2, posicion: '2' },
+                                { preguntaId: p3, respuesta: r3, posicion: '3' }
+                            ]
+                        };
+                    }
+                });
+
+                if (!swalResult.value) {
+                    return;
+                }
+
+                const preguntasPayload = swalResult.value.preguntas;
+
+                const { datos: datosRegistroFinal } = await enviarJSON('/register', {
+                    ...datosRegistro,
+                    preguntas: preguntasPayload
+                });
+
+                if (datosRegistroFinal?.success) {
                     notificar('success', 'Registro exitoso', 'Ahora puedes iniciar sesión.');
-                    modalSeguridad.classList.remove('active');
-                    modalSeguridad.style.display = 'none';
                     contenedor.classList.remove('toggle');
                     formularioRegistro.reset();
-                    formularioSeguridad.reset();
                     datosRegistro = null;
                 } else {
-                    errorSeguridad.textContent = datos.error || 'No se pudo completar el registro.';
-                    notificar('error', 'Error', datos.error || 'No se pudo completar el registro');
+                    errorRegistro.textContent = datosRegistroFinal?.error || 'No se pudo completar el registro.';
+                    notificar('error', 'Error', datosRegistroFinal?.error || 'No se pudo completar el registro');
                 }
             } catch (err) {
-                errorSeguridad.textContent = 'Error de conexión. Inténtalo nuevamente.';
-                notificar('error', 'Error de conexión', 'Inténtalo nuevamente.');
+                errorRegistro.textContent = 'Error de conexión al validar los datos.';
+                notificar('error', 'Error de conexión', 'No se pudieron validar los datos.');
             } finally {
-                establecerCarga(enviarPreguntasSeguridad, false, 'Registrarse');
+                establecerCarga(enviarRegistro, false, 'Continuar');
             }
         });
+
+        // REGISTRO - Paso 2 (antiguo con formularioSeguridad) ELIMINADO.
+        // Ahora todo el flujo de registro + preguntas de seguridad se maneja
+        // con SweetAlert en el submit de formularioRegistro (ver arriba).
     </script>
 
     <!-- Ionicons -->

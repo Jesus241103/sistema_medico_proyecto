@@ -56,7 +56,7 @@
       try{ 
         await fetch('/logout', { method: 'POST', cache: 'no-store' });
       }catch(e){}
-      window.location.replace('/');
+      window.location.replace('/login-paciente.html');
     });
 
     window.addEventListener('pageshow', (e) => {

@@ -1,2 +1,7 @@
-node --run dev
+CREAR ARCHIVO .env COPIAR LAS CREDENCIALES DE .env.example Y PEGARLAS EN E NUEVO ARCHIVO CREADO .env
 
+EJECUTAR
+ node --run dev
+
+ ACCEDER A
+ localhost:3000

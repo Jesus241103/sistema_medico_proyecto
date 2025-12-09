@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 04-12-2025 a las 03:05:56
+-- Tiempo de generación: 09-12-2025 a las 16:01:28
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -20,6 +20,32 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `db_new`
 --
+
+CREATE DATABASE IF NOT EXISTS `db_new` DEFAULT CHARACTER SET utf8mb4 COLLATE=utf8mb4_general_ci;
+USE `db_new`;
+
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `administrador`
+--
+
+CREATE TABLE `administrador` (
+  `ID` int(11) NOT NULL,
+  `Cedula` int(11) NOT NULL,
+  `Primer_Nombre` varchar(20) NOT NULL,
+  `Segundo_Nombre` varchar(20) NOT NULL,
+  `Primer_Apellido` varchar(20) NOT NULL,
+  `Segundo_Apellido` varchar(20) NOT NULL,
+  `Estado` varchar(20) NOT NULL,
+  `Municipio` varchar(20) NOT NULL,
+  `Direccion` varchar(50) NOT NULL,
+  `Telefono` varchar(11) NOT NULL,
+  `Correo` varchar(50) NOT NULL,
+  `Status` tinyint(1) NOT NULL,
+  `Rol` enum('Paciente','Medico','Administrador') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -584,37 +610,130 @@ INSERT INTO `estados` (`id_estado`, `estado`, `iso_3166-2`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `historico_clave`
+-- Estructura de tabla para la tabla `historico_clave_administrador`
 --
 
-CREATE TABLE `historico_clave` (
+CREATE TABLE `historico_clave_administrador` (
+  `ID` int(11) NOT NULL,
+  `Clave` varchar(32) NOT NULL,
+  `Status` tinyint(4) NOT NULL,
+  `lista_clave_administrador_ID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `historico_clave_medico`
+--
+
+CREATE TABLE `historico_clave_medico` (
+  `ID` int(11) NOT NULL,
+  `Clave` varchar(32) NOT NULL,
+  `Status` tinyint(4) NOT NULL,
+  `lista_clave_medico_ID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `historico_clave_paciente`
+--
+
+CREATE TABLE `historico_clave_paciente` (
   `ID` int(11) NOT NULL,
   `Lista_ID` int(11) NOT NULL,
   `Clave` varchar(32) NOT NULL,
   `Status` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Volcado de datos para la tabla `historico_clave`
+-- Estructura de tabla para la tabla `historico_clave_superadmin`
 --
+
+CREATE TABLE `historico_clave_superadmin` (
+  `ID` int(11) NOT NULL,
+  `Clave` varchar(32) NOT NULL,
+  `Status` tinyint(4) NOT NULL,
+  `lista_clave_administrador_ID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `lista_clave`
+-- Estructura de tabla para la tabla `lista_clave_administrador`
 --
 
-CREATE TABLE `lista_clave` (
+CREATE TABLE `lista_clave_administrador` (
   `ID` int(11) NOT NULL,
-  `Usuario_Cedula` int(11) NOT NULL,
   `Clave` varchar(32) NOT NULL,
-  `Status` tinyint(4) NOT NULL
+  `Status` tinyint(4) NOT NULL,
+  `medico_Cedula` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Volcado de datos para la tabla `lista_clave`
+-- Estructura de tabla para la tabla `lista_clave_medico`
 --
 
+CREATE TABLE `lista_clave_medico` (
+  `ID` int(11) NOT NULL,
+  `Clave` varchar(32) NOT NULL,
+  `Status` tinyint(4) NOT NULL,
+  `medico_Cedula` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `lista_clave_paciente`
+--
+
+CREATE TABLE `lista_clave_paciente` (
+  `ID` int(11) NOT NULL,
+  `Clave` varchar(32) NOT NULL,
+  `Status` tinyint(4) NOT NULL,
+  `paciente_Cedula` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `lista_clave_superadmin`
+--
+
+CREATE TABLE `lista_clave_superadmin` (
+  `ID` int(11) NOT NULL,
+  `Clave` varchar(32) NOT NULL,
+  `Status` tinyint(4) NOT NULL,
+  `medico_Cedula` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `medico`
+--
+
+CREATE TABLE `medico` (
+  `ID` int(11) NOT NULL,
+  `Cedula` int(11) NOT NULL,
+  `Primer_Nombre` varchar(20) NOT NULL,
+  `Segundo_Nombre` varchar(20) NOT NULL,
+  `Primer_Apellido` varchar(20) NOT NULL,
+  `Segundo_Apellido` varchar(20) NOT NULL,
+  `Estado` varchar(20) NOT NULL,
+  `Municipio` varchar(20) NOT NULL,
+  `Direccion` varchar(50) NOT NULL,
+  `Telefono` varchar(11) NOT NULL,
+  `Correo` varchar(50) NOT NULL,
+  `Rif` varchar(15) NOT NULL,
+  `Status` tinyint(1) NOT NULL,
+  `Rol` enum('Paciente','Medico','Administrador') NOT NULL,
+  `Sexo` enum('Masculino','Femenino') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -968,6 +1087,30 @@ INSERT INTO `municipios` (`id_municipio`, `id_estado`, `municipio`) VALUES
 (460, 23, 'Sucre'),
 (461, 23, 'Valmore Rodríguez'),
 (462, 24, 'Libertador');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `paciente`
+--
+
+CREATE TABLE `paciente` (
+  `ID` int(11) NOT NULL,
+  `Cedula` int(11) NOT NULL,
+  `Correo` varchar(45) NOT NULL,
+  `Nacionalidad` enum('Extranjero','Venezolano') NOT NULL,
+  `Primer_Nombre` varchar(20) NOT NULL,
+  `Segundo_Nombre` varchar(20) NOT NULL,
+  `Primer_Apellido` varchar(20) NOT NULL,
+  `Segundo_Apellido` varchar(20) NOT NULL,
+  `Telefono` varchar(12) NOT NULL,
+  `Direccion` varchar(40) NOT NULL,
+  `Estado` varchar(20) NOT NULL,
+  `Municipio` varchar(50) NOT NULL,
+  `Rol` enum('Paciente','Medico','Administrador') NOT NULL,
+  `Sexo` enum('Masculino','Femenino') NOT NULL,
+  `Status` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -2128,120 +2271,91 @@ INSERT INTO `parroquias` (`id_parroquia`, `id_municipio`, `parroquia`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `pregunta`
+-- Estructura de tabla para la tabla `pregunta_administrador`
 --
 
-CREATE TABLE `pregunta` (
+CREATE TABLE `pregunta_administrador` (
   `ID` int(11) NOT NULL,
-  `Pregunta` varchar(50) NOT NULL,
-  `Status` tinyint(4) NOT NULL
+  `Pregunta` enum('¿Cuál es el nombre de tu primera mascota?','¿Cuál es el segundo nombre de tu madre?','¿En qué ciudad naciste?','¿Cuál fue el nombre de tu primera escuela?','¿Cuál es tu comida favorita?') NOT NULL,
+  `Respuesta` varchar(32) NOT NULL,
+  `Status` tinyint(4) NOT NULL,
+  `administrador_Cedula` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `pregunta`
---
-
-INSERT INTO `pregunta` (`ID`, `Pregunta`, `Status`) VALUES
-(1, '¿Cuál es el nombre de tu primera mascota?', 1),
-(2, '¿Cuál es el segundo nombre de tu madre?', 1),
-(3, '¿En qué ciudad naciste?', 1),
-(4, '¿Cuál fue el nombre de tu primera escuela?', 1),
-(5, '¿Cuál es tu comida favorita?', 1),
-(6, '¿Cuál es el nombre de tu mejor amigo de la infanci', 1),
-(7, '¿Cuál es el nombre de tu abuelo paterno?', 1),
-(8, '¿Cuál fue tu primer trabajo?', 1),
-(9, '¿Cuál es tu color favorito?', 1),
-(10, '¿Cuál es el nombre de tu profesor favorito en la e', 1);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `pregunta_usuario`
+-- Estructura de tabla para la tabla `pregunta_medico`
 --
 
-CREATE TABLE `pregunta_usuario` (
+CREATE TABLE `pregunta_medico` (
   `ID` int(11) NOT NULL,
-  `Pregunta_ID` int(11) NOT NULL,
+  `Pregunta` enum('¿Cuál es el nombre de tu primera mascota?','¿Cuál es el segundo nombre de tu madre?','¿En qué ciudad naciste?','¿Cuál fue el nombre de tu primera escuela?','¿Cuál es tu comida favorita?') NOT NULL,
+  `medico_Cedula` int(11) NOT NULL,
+  `Respuesta` varchar(32) NOT NULL,
+  `Status` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `pregunta_paciente`
+--
+
+CREATE TABLE `pregunta_paciente` (
+  `ID` int(11) NOT NULL,
+  `Pregunta` enum('¿Cuál es el nombre de tu primera mascota?','¿Cuál es el segundo nombre de tu madre?','¿En qué ciudad naciste?','¿Cuál fue el nombre de tu primera escuela?','¿Cuál es tu comida favorita?') NOT NULL,
   `Usuario_Cedula` int(11) NOT NULL,
   `Respuesta` varchar(32) NOT NULL,
-  `Posicion` enum('1','2','3') NOT NULL,
   `Status` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `pregunta_usuario`
---
-
-
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `rol`
+-- Estructura de tabla para la tabla `pregunta_superadmin`
 --
 
-CREATE TABLE `rol` (
+CREATE TABLE `pregunta_superadmin` (
   `ID` int(11) NOT NULL,
-  `Rol` varchar(25) NOT NULL,
-  `Status` tinyint(4) NOT NULL
+  `Pregunta` enum('¿Cuál es el nombre de tu primera mascota?','¿Cuál es el segundo nombre de tu madre?','¿En qué ciudad naciste?','¿Cuál fue el nombre de tu primera escuela?','¿Cuál es tu comida favorita?') DEFAULT NULL,
+  `Respuesta` varchar(32) NOT NULL,
+  `Status` tinyint(4) NOT NULL,
+  `administrador_Cedula` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `rol`
---
-
-INSERT INTO `rol` (`ID`, `Rol`, `Status`) VALUES
-(1, 'Paciente', 1);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `rol_usuario`
+-- Estructura de tabla para la tabla `superadmin`
 --
 
-CREATE TABLE `rol_usuario` (
-  `ID` int(11) NOT NULL,
-  `Rol_ID` int(11) NOT NULL,
-  `Usuario_Cedula` int(11) NOT NULL,
-  `Status` tinyint(4) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `rol_usuario`
---
-
-
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `usuario`
---
-
-CREATE TABLE `usuario` (
+CREATE TABLE `superadmin` (
   `ID` int(11) NOT NULL,
   `Cedula` int(11) NOT NULL,
-  `Correo` varchar(45) NOT NULL,
-  `Tipo_Persona` enum('Natural','Juridica') NOT NULL,
-  `Nacionalidad` enum('Extranjero','Venezolano') NOT NULL,
   `Primer_Nombre` varchar(20) NOT NULL,
   `Segundo_Nombre` varchar(20) NOT NULL,
   `Primer_Apellido` varchar(20) NOT NULL,
   `Segundo_Apellido` varchar(20) NOT NULL,
-  `Telefono` varchar(12) NOT NULL,
-  `Direccion` varchar(40) NOT NULL,
   `Estado` varchar(20) NOT NULL,
-  `Municipio` varchar(50) NOT NULL
+  `Municipio` varchar(20) NOT NULL,
+  `Direccion` varchar(50) NOT NULL,
+  `Telefono` varchar(11) NOT NULL,
+  `Correo` varchar(50) NOT NULL,
+  `Status` tinyint(1) NOT NULL,
+  `Rol` enum('Paciente','Medico','Administrador') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `usuario`
---
-
 
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `administrador`
+--
+ALTER TABLE `administrador`
+  ADD PRIMARY KEY (`Cedula`),
+  ADD UNIQUE KEY `ID` (`ID`);
 
 --
 -- Indices de la tabla `ciudades`
@@ -2257,18 +2371,67 @@ ALTER TABLE `estados`
   ADD PRIMARY KEY (`id_estado`);
 
 --
--- Indices de la tabla `historico_clave`
+-- Indices de la tabla `historico_clave_administrador`
 --
-ALTER TABLE `historico_clave`
+ALTER TABLE `historico_clave_administrador`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `fk_historico_clave_administrador_lista_clave_administrador1_idx` (`lista_clave_administrador_ID`);
+
+--
+-- Indices de la tabla `historico_clave_medico`
+--
+ALTER TABLE `historico_clave_medico`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `fk_historico_clave_medico_lista_clave_medico1_idx` (`lista_clave_medico_ID`);
+
+--
+-- Indices de la tabla `historico_clave_paciente`
+--
+ALTER TABLE `historico_clave_paciente`
   ADD PRIMARY KEY (`ID`),
   ADD KEY `fk_Historico_Clave_Lista_Clave1_idx` (`Lista_ID`);
 
 --
--- Indices de la tabla `lista_clave`
+-- Indices de la tabla `historico_clave_superadmin`
 --
-ALTER TABLE `lista_clave`
+ALTER TABLE `historico_clave_superadmin`
   ADD PRIMARY KEY (`ID`),
-  ADD KEY `fk_Lista_Clave_Usuario1_idx` (`Usuario_Cedula`);
+  ADD KEY `fk_historico_clave_administrador_lista_clave_administrador1_idx` (`lista_clave_administrador_ID`);
+
+--
+-- Indices de la tabla `lista_clave_administrador`
+--
+ALTER TABLE `lista_clave_administrador`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `fk_lista_clave_medico_medico1_idx` (`medico_Cedula`);
+
+--
+-- Indices de la tabla `lista_clave_medico`
+--
+ALTER TABLE `lista_clave_medico`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `fk_lista_clave_medico_medico1_idx` (`medico_Cedula`);
+
+--
+-- Indices de la tabla `lista_clave_paciente`
+--
+ALTER TABLE `lista_clave_paciente`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `fk_lista_clave_paciente1_idx` (`paciente_Cedula`);
+
+--
+-- Indices de la tabla `lista_clave_superadmin`
+--
+ALTER TABLE `lista_clave_superadmin`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `fk_lista_clave_medico_medico1_idx` (`medico_Cedula`);
+
+--
+-- Indices de la tabla `medico`
+--
+ALTER TABLE `medico`
+  ADD PRIMARY KEY (`Cedula`),
+  ADD UNIQUE KEY `ID` (`ID`);
 
 --
 -- Indices de la tabla `municipios`
@@ -2278,6 +2441,14 @@ ALTER TABLE `municipios`
   ADD KEY `id_estado` (`id_estado`);
 
 --
+-- Indices de la tabla `paciente`
+--
+ALTER TABLE `paciente`
+  ADD PRIMARY KEY (`Cedula`),
+  ADD UNIQUE KEY `ID_UNIQUE` (`ID`),
+  ADD UNIQUE KEY `Correo` (`Correo`);
+
+--
 -- Indices de la tabla `parroquias`
 --
 ALTER TABLE `parroquias`
@@ -2285,44 +2456,49 @@ ALTER TABLE `parroquias`
   ADD KEY `id_municipio` (`id_municipio`);
 
 --
--- Indices de la tabla `pregunta`
+-- Indices de la tabla `pregunta_administrador`
 --
-ALTER TABLE `pregunta`
-  ADD PRIMARY KEY (`ID`);
+ALTER TABLE `pregunta_administrador`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `fk_pregunta_medico_copy1_administrador1_idx` (`administrador_Cedula`);
 
 --
--- Indices de la tabla `pregunta_usuario`
+-- Indices de la tabla `pregunta_medico`
 --
-ALTER TABLE `pregunta_usuario`
+ALTER TABLE `pregunta_medico`
   ADD PRIMARY KEY (`ID`),
-  ADD KEY `fk_Pregunta_Usuario_Pregunta_idx` (`Pregunta_ID`),
+  ADD KEY `fk_pregunta_medico_medico1_idx` (`medico_Cedula`);
+
+--
+-- Indices de la tabla `pregunta_paciente`
+--
+ALTER TABLE `pregunta_paciente`
+  ADD PRIMARY KEY (`ID`),
   ADD KEY `fk_Pregunta_Usuario_Usuario1_idx` (`Usuario_Cedula`);
 
 --
--- Indices de la tabla `rol`
+-- Indices de la tabla `pregunta_superadmin`
 --
-ALTER TABLE `rol`
-  ADD PRIMARY KEY (`ID`);
-
---
--- Indices de la tabla `rol_usuario`
---
-ALTER TABLE `rol_usuario`
+ALTER TABLE `pregunta_superadmin`
   ADD PRIMARY KEY (`ID`),
-  ADD KEY `fk_Rol_Usuario_Rol1_idx` (`Rol_ID`),
-  ADD KEY `fk_Rol_Usuario_Usuario1_idx` (`Usuario_Cedula`);
+  ADD KEY `fk_pregunta_medico_copy1_administrador1_idx` (`administrador_Cedula`);
 
 --
--- Indices de la tabla `usuario`
+-- Indices de la tabla `superadmin`
 --
-ALTER TABLE `usuario`
+ALTER TABLE `superadmin`
   ADD PRIMARY KEY (`Cedula`),
-  ADD UNIQUE KEY `ID_UNIQUE` (`ID`),
-  ADD UNIQUE KEY `Correo` (`Correo`);
+  ADD UNIQUE KEY `ID` (`ID`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
+
+--
+-- AUTO_INCREMENT de la tabla `administrador`
+--
+ALTER TABLE `administrador`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `ciudades`
@@ -2337,16 +2513,58 @@ ALTER TABLE `estados`
   MODIFY `id_estado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
--- AUTO_INCREMENT de la tabla `historico_clave`
+-- AUTO_INCREMENT de la tabla `historico_clave_administrador`
 --
-ALTER TABLE `historico_clave`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+ALTER TABLE `historico_clave_administrador`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT de la tabla `lista_clave`
+-- AUTO_INCREMENT de la tabla `historico_clave_medico`
 --
-ALTER TABLE `lista_clave`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+ALTER TABLE `historico_clave_medico`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `historico_clave_paciente`
+--
+ALTER TABLE `historico_clave_paciente`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `historico_clave_superadmin`
+--
+ALTER TABLE `historico_clave_superadmin`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `lista_clave_administrador`
+--
+ALTER TABLE `lista_clave_administrador`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT de la tabla `lista_clave_medico`
+--
+ALTER TABLE `lista_clave_medico`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT de la tabla `lista_clave_paciente`
+--
+ALTER TABLE `lista_clave_paciente`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT de la tabla `lista_clave_superadmin`
+--
+ALTER TABLE `lista_clave_superadmin`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT de la tabla `medico`
+--
+ALTER TABLE `medico`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `municipios`
@@ -2355,40 +2573,46 @@ ALTER TABLE `municipios`
   MODIFY `id_municipio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=463;
 
 --
+-- AUTO_INCREMENT de la tabla `paciente`
+--
+ALTER TABLE `paciente`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+
+--
 -- AUTO_INCREMENT de la tabla `parroquias`
 --
 ALTER TABLE `parroquias`
   MODIFY `id_parroquia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1139;
 
 --
--- AUTO_INCREMENT de la tabla `pregunta`
+-- AUTO_INCREMENT de la tabla `pregunta_administrador`
 --
-ALTER TABLE `pregunta`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+ALTER TABLE `pregunta_administrador`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
--- AUTO_INCREMENT de la tabla `pregunta_usuario`
+-- AUTO_INCREMENT de la tabla `pregunta_medico`
 --
-ALTER TABLE `pregunta_usuario`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+ALTER TABLE `pregunta_medico`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
--- AUTO_INCREMENT de la tabla `rol`
+-- AUTO_INCREMENT de la tabla `pregunta_paciente`
 --
-ALTER TABLE `rol`
+ALTER TABLE `pregunta_paciente`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+
+--
+-- AUTO_INCREMENT de la tabla `pregunta_superadmin`
+--
+ALTER TABLE `pregunta_superadmin`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+
+--
+-- AUTO_INCREMENT de la tabla `superadmin`
+--
+ALTER TABLE `superadmin`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT de la tabla `rol_usuario`
---
-ALTER TABLE `rol_usuario`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-
---
--- AUTO_INCREMENT de la tabla `usuario`
---
-ALTER TABLE `usuario`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- Restricciones para tablas volcadas
@@ -2401,16 +2625,52 @@ ALTER TABLE `ciudades`
   ADD CONSTRAINT `ciudades_ibfk_1` FOREIGN KEY (`id_estado`) REFERENCES `estados` (`id_estado`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `historico_clave`
+-- Filtros para la tabla `historico_clave_administrador`
 --
-ALTER TABLE `historico_clave`
-  ADD CONSTRAINT `fk_Historico_Clave_Lista_Clave1` FOREIGN KEY (`Lista_ID`) REFERENCES `lista_clave` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `historico_clave_administrador`
+  ADD CONSTRAINT `fk_historico_clave_administrador_lista_clave_administrador1` FOREIGN KEY (`lista_clave_administrador_ID`) REFERENCES `lista_clave_administrador` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Filtros para la tabla `lista_clave`
+-- Filtros para la tabla `historico_clave_medico`
 --
-ALTER TABLE `lista_clave`
-  ADD CONSTRAINT `fk_Lista_Clave_Usuario1` FOREIGN KEY (`Usuario_Cedula`) REFERENCES `usuario` (`Cedula`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `historico_clave_medico`
+  ADD CONSTRAINT `fk_historico_clave_medico_lista_clave_medico1` FOREIGN KEY (`lista_clave_medico_ID`) REFERENCES `lista_clave_medico` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `historico_clave_paciente`
+--
+ALTER TABLE `historico_clave_paciente`
+  ADD CONSTRAINT `fk_Historico_Clave_Lista_Clave1` FOREIGN KEY (`Lista_ID`) REFERENCES `lista_clave_paciente` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `historico_clave_superadmin`
+--
+ALTER TABLE `historico_clave_superadmin`
+  ADD CONSTRAINT `fk_historico_clave_administrador_lista_clave_administrador10` FOREIGN KEY (`lista_clave_administrador_ID`) REFERENCES `lista_clave_superadmin` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `lista_clave_administrador`
+--
+ALTER TABLE `lista_clave_administrador`
+  ADD CONSTRAINT `fk_lista_clave_medico_medico10` FOREIGN KEY (`medico_Cedula`) REFERENCES `administrador` (`Cedula`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `lista_clave_medico`
+--
+ALTER TABLE `lista_clave_medico`
+  ADD CONSTRAINT `fk_lista_clave_medico_medico1` FOREIGN KEY (`medico_Cedula`) REFERENCES `medico` (`Cedula`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `lista_clave_paciente`
+--
+ALTER TABLE `lista_clave_paciente`
+  ADD CONSTRAINT `fk_lista_clave_paciente1` FOREIGN KEY (`paciente_Cedula`) REFERENCES `paciente` (`Cedula`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `lista_clave_superadmin`
+--
+ALTER TABLE `lista_clave_superadmin`
+  ADD CONSTRAINT `fk_lista_clave_medico_medico100` FOREIGN KEY (`medico_Cedula`) REFERENCES `superadmin` (`Cedula`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Filtros para la tabla `municipios`
@@ -2425,18 +2685,28 @@ ALTER TABLE `parroquias`
   ADD CONSTRAINT `parroquias_ibfk_1` FOREIGN KEY (`id_municipio`) REFERENCES `municipios` (`id_municipio`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `pregunta_usuario`
+-- Filtros para la tabla `pregunta_administrador`
 --
-ALTER TABLE `pregunta_usuario`
-  ADD CONSTRAINT `fk_Pregunta_Usuario_Pregunta` FOREIGN KEY (`Pregunta_ID`) REFERENCES `pregunta` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_Pregunta_Usuario_Usuario1` FOREIGN KEY (`Usuario_Cedula`) REFERENCES `usuario` (`Cedula`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `pregunta_administrador`
+  ADD CONSTRAINT `fk_pregunta_medico_copy1_administrador1` FOREIGN KEY (`administrador_Cedula`) REFERENCES `administrador` (`Cedula`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Filtros para la tabla `rol_usuario`
+-- Filtros para la tabla `pregunta_medico`
 --
-ALTER TABLE `rol_usuario`
-  ADD CONSTRAINT `fk_Rol_Usuario_Rol1` FOREIGN KEY (`Rol_ID`) REFERENCES `rol` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_Rol_Usuario_Usuario1` FOREIGN KEY (`Usuario_Cedula`) REFERENCES `usuario` (`Cedula`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `pregunta_medico`
+  ADD CONSTRAINT `fk_pregunta_medico_medico1` FOREIGN KEY (`medico_Cedula`) REFERENCES `medico` (`Cedula`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `pregunta_paciente`
+--
+ALTER TABLE `pregunta_paciente`
+  ADD CONSTRAINT `fk_Pregunta_Usuario_Usuario1` FOREIGN KEY (`Usuario_Cedula`) REFERENCES `paciente` (`Cedula`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `pregunta_superadmin`
+--
+ALTER TABLE `pregunta_superadmin`
+  ADD CONSTRAINT `fk_pregunta_medico_copy1_administrador10` FOREIGN KEY (`administrador_Cedula`) REFERENCES `superadmin` (`Cedula`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -7,7 +7,7 @@ if (!DB_HOST || !DB_USER || !DB_PORT || !DB_NAME) {
     throw new Error("Faltan variables de entorno: DB_HOST, DB_USER, DB_PORT, DB_NAME");
 }
 
-const pool = mysql.createPool({
+const poolConexiones = mysql.createPool({
     host: DB_HOST,
     user: DB_USER,
     password: DB_PASSWORD,
@@ -18,4 +18,4 @@ const pool = mysql.createPool({
     queueLimit: 0
 });
 
-module.exports = pool.promise();
+module.exports = poolConexiones.promise();

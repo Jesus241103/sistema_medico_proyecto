@@ -1,32 +1,38 @@
 // Servidor HTTP principal (Express) y configuración base
 const express = require("express");
-const apis = require("./endpoints.js"); 
+const backendPaciente = require("./backend/backend-paciente.js");
+const backendMedico = require("./backend/backend-medico.js");
+const backendAdmin = require("./backend/backend-admin.js");
+const backendSuperAdmin = require("./backend/backend-super-admin.js");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 
-const app = express();
+const aplicacion = express();
 
-app.use(express.json());
-app.use(cookieParser());
+aplicacion.use(express.json());
+aplicacion.use(cookieParser());
 
-const port = process.env.PORT ?? 3000;
+const puerto = process.env.PORT ?? 3000;
 
-//IMPORTAR RUTAS DESDE endpoints.js
-apis(app);
+// Registrar backends de cada tipo de usuario
+backendPaciente(aplicacion);
+backendMedico(aplicacion);
+backendAdmin(aplicacion);
+backendSuperAdmin(aplicacion);
 
-// Redireccionar accesos directos a archivos HTML a la raíz
-// para que siempre se pase por la lógica de autenticación
-app.use((req, res, next) => {
-    if (req.path === '/index.html' || req.path === '/login.html' || req.path === '/acceso.html') {
+// Redireccionar accesos directos a algunos archivos HTML a la raíz
+// para centralizar el inicio en index.html, pero permitir el login del paciente directamente
+aplicacion.use((req, res, next) => {
+    if (req.path === '/index.html' || req.path === '/login.html' || req.path === '/acceso.html' || req.path === '/acceso-paciente.html') {
         return res.redirect('/');
     }
     next();
 });
 
 //SERVIR ARCHIVOS ESTATICOS
-app.use(express.static(path.join(__dirname, "public")));
+aplicacion.use(express.static(path.join(__dirname, "public")));
 
 //INICIAR SERVIDOR
-app.listen(port, () => {
-    console.log(`Server corriendo en ${port}`);
+aplicacion.listen(puerto, () => {
+    console.log(`Server corriendo en ${puerto}`);
 });
