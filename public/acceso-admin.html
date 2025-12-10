@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel Administrador</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Panel del Administrador</h1>
+    <p id="info"></p>
+    <button id="logout">Cerrar sesión</button>
+  </main>
+
+  <script>
+    const info = document.getElementById('info');
+    const btn = document.getElementById('logout');
+
+    const cargarPerfil = async () => {
+      try {
+        const resp = await fetch('/admin/me', { credentials: 'same-origin' });
+        const data = await resp.json();
+        if (!resp.ok) return info.textContent = data.error || 'No autorizado.';
+        info.textContent = `${data.nombre} | ${data.correo}`;
+      } catch {
+        info.textContent = 'Error al obtener perfil.';
+      }
+    };
+
+    btn.addEventListener('click', async () => {
+      await fetch('/admin/logout', { method: 'POST', credentials: 'same-origin' });
+      window.location.href = '/login-admin.html';
+    });
+
+    cargarPerfil();
+  </script>
+</body>
+</html>
+

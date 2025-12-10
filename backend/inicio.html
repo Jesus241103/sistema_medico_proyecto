@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Agendar Cita - Inicio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --blue-50: #eff6ff;
+      --blue-100: #dbeafe;
+      --blue-200: #bfdbfe;
+      --blue-600: #2563eb;
+      --blue-700: #1d4ed8;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-300: #d1d5db;
+      --gray-400: #9ca3af;
+      --gray-500: #6b7280;
+      --gray-600: #4b5563;
+      --gray-900: #111827;
+      --green-100: #dcfce7;
+      --green-600: #16a34a;
+      --red-500: #ef4444;
+      --bg: #f3f4f6;
+      --card-bg: #ffffff;
+      --border-color: #e5e7eb;
+      --radius-md: 0.5rem;
+      --radius-lg: 0.75rem;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 6px rgba(0,0,0,0.08);
+      --shadow-lg: 0 10px 15px rgba(0,0,0,0.12);
+      --transition-fast: 0.15s ease-out;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--gray-900);
+    }
+
+    .page {
+      max-width: 1120px;
+      margin: 32px auto;
+      padding: 0 16px 40px;
+    }
+
+    .page-intro {
+      margin-bottom: 16px;
+    }
+
+    .page-intro p {
+      color: var(--gray-500);
+      font-size: 0.95rem;
+    }
+
+    /* Step indicator */
+    .steps {
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .steps-inner {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      max-width: 640px;
+    }
+
+    .step-indicator {
+      display: flex;
+      align-items: center;
+    }
+
+    .step-circle-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .step-circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      border: 2px solid transparent;
+      background: var(--gray-200);
+      color: var(--gray-400);
+      transition: all var(--transition-fast);
+    }
+
+    .step-title {
+      margin-top: 6px;
+      font-size: 0.7rem;
+      color: var(--gray-600);
+    }
+
+    .step-line {
+      margin: 0 8px;
+      width: 16px;
+      height: 16px;
+      border-right: 2px solid #e5e7eb;
+      border-bottom: 2px solid #e5e7eb;
+      transform: rotate(-45deg);
+    }
+
+    .step-active .step-circle {
+      background: var(--blue-600);
+      color: #fff;
+      box-shadow: 0 6px 10px rgba(37,99,235,0.4);
+    }
+
+    .step-completed .step-circle {
+      background: var(--blue-600);
+      color: #fff;
+      box-shadow: 0 8px 14px rgba(37,99,235,0.5);
+      transform: scale(1.08);
+    }
+
+    .step-completed .step-circle::before {
+      content: "✓";
+      font-weight: 600;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      padding: 24px;
+    }
+
+    .card-elevated {
+      box-shadow: var(--shadow-lg);
+    }
+
+    .card-strong-border {
+      border-width: 2px;
+      border-color: var(--gray-100);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .icon-circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: var(--blue-100);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--blue-600);
+      flex-shrink: 0;
+      font-size: 18px;
+    }
+
+    .card-header-title h3 {
+      margin: 0;
+      font-size: 1rem;
+      color: var(--gray-900);
+    }
+
+    .card-header-title p {
+      margin: 2px 0 0;
+      font-size: 0.75rem;
+      color: var(--gray-500);
+    }
+
+    /* Layout utilities */
+    .grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    @media (min-width: 768px) {
+      .grid-md-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .grid-lg-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    .flex {
+      display: flex;
+    }
+
+    .flex-col {
+      flex-direction: column;
+    }
+
+    .flex-between {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .flex-center {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .gap-2 { gap: 8px; }
+    .gap-3 { gap: 12px; }
+    .gap-4 { gap: 16px; }
+    .gap-6 { gap: 24px; }
+
+    .mt-4 { margin-top: 16px; }
+    .mt-6 { margin-top: 24px; }
+    .mt-8 { margin-top: 32px; }
+    .mb-4 { margin-bottom: 16px; }
+    .mb-6 { margin-bottom: 24px; }
+
+    .border-top {
+      border-top: 1px solid var(--border-color);
+    }
+
+    .border-bottom {
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 16px;
+      height: 40px;
+      border-radius: 6px;
+      border: 1px solid transparent;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      background: var(--blue-600);
+      color: #fff;
+      transition: all var(--transition-fast);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .btn span.icon {
+      font-size: 14px;
+    }
+
+    .btn:hover:not(:disabled) {
+      background: var(--blue-700);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-1px);
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: default;
+      box-shadow: none;
+      transform: none;
+    }
+
+    .btn-outline {
+      background: #fff;
+      color: var(--gray-700);
+      border-color: var(--border-color);
+      box-shadow: none;
+    }
+
+    .btn-outline:hover:not(:disabled) {
+      border-color: var(--blue-600);
+      background: var(--blue-50);
+      color: var(--blue-700);
+    }
+
+    .btn-secondary {
+      background: var(--gray-100);
+      color: var(--gray-700);
+    }
+
+    .btn-full {
+      width: 100%;
+    }
+
+    .btn-lg {
+      height: 48px;
+      font-size: 0.95rem;
+    }
+
+    .btn-sm {
+      height: 32px;
+      padding: 0 10px;
+      font-size: 0.8rem;
+    }
+
+    /* Labels & inputs */
+    label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--gray-700);
+      margin-bottom: 6px;
+    }
+
+    select,
+    input[type="date"] {
+      width: 100%;
+      height: 44px;
+      padding: 8px 10px;
+      border-radius: 6px;
+      border: 2px solid var(--border-color);
+      background: #fff;
+      font-size: 0.9rem;
+      color: var(--gray-900);
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+    }
+
+    select:focus,
+    input[type="date"]:focus {
+      border-color: var(--blue-400, #60a5fa);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(96,165,250,0.4);
+    }
+
+    /* Pills for horarios */
+    .horarios-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      max-height: 380px;
+      overflow-y: auto;
+    }
+
+    .horario-btn {
+      height: 44px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      background: #fff;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .horario-btn:hover:not(.ocupado):not(.seleccionado) {
+      border-color: var(--blue-400, #60a5fa);
+      background: var(--blue-50);
+    }
+
+    .horario-btn.ocupado {
+      background: var(--gray-200);
+      color: var(--gray-400);
+      border-color: var(--gray-200);
+      cursor: default;
+    }
+
+    .horario-btn.seleccionado {
+      background: var(--blue-600);
+      color: #fff;
+      box-shadow: var(--shadow-lg);
+      transform: scale(1.03);
+      border-color: var(--blue-600);
+    }
+
+    .badge-legend {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.7rem;
+      color: var(--gray-600);
+    }
+
+    .badge-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+    }
+
+    /* Medicos grid */
+    .medico-card {
+      border-radius: 12px;
+      border: 2px solid var(--gray-200);
+      padding: 18px;
+      text-align: left;
+      cursor: pointer;
+      background: #fff;
+      transition: all var(--transition-fast);
+    }
+
+    .medico-card:hover {
+      border-color: var(--blue-400, #60a5fa);
+      box-shadow: var(--shadow-md);
+    }
+
+    .medico-card.seleccionado {
+      border-color: var(--blue-600);
+      background: var(--blue-50);
+      box-shadow: var(--shadow-lg);
+      transform: scale(1.03);
+    }
+
+    .medico-header {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .medico-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: var(--blue-100);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: var(--blue-600);
+      flex-shrink: 0;
+    }
+
+    .medico-name {
+      margin: 0 0 2px;
+      font-size: 0.9rem;
+      color: var(--gray-900);
+    }
+
+    .medico-spec {
+      margin: 0;
+      font-size: 0.78rem;
+      color: var(--blue-600);
+    }
+
+    .medico-center {
+      margin: 0;
+      font-size: 0.8rem;
+      color: var(--gray-500);
+    }
+
+    /* Pagination */
+    .pagination {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border-color);
+      margin-top: 4px;
+    }
+
+    .page-btn {
+      min-width: 36px;
+      height: 32px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      background: #fff;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .page-btn:hover:not(.page-active):not(:disabled) {
+      border-color: var(--blue-400, #60a5fa);
+    }
+
+    .page-btn.page-active {
+      background: var(--blue-600);
+      color: #fff;
+      border-color: var(--blue-600);
+    }
+
+    .page-btn:disabled {
+      opacity: 0.4;
+      cursor: default;
+    }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 64px 16px;
+      color: var(--gray-500);
+    }
+
+    .empty-icon {
+      font-size: 40px;
+      margin-bottom: 8px;
+      color: var(--gray-300);
+    }
+
+    .empty-title {
+      font-size: 1rem;
+      margin-bottom: 4px;
+    }
+
+    .empty-text {
+      font-size: 0.85rem;
+    }
+
+    /* Summary / payment */
+    .summary-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      font-size: 0.9rem;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--gray-100);
+    }
+
+    .summary-line:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .summary-label {
+      color: var(--gray-600);
+      font-size: 0.85rem;
+    }
+
+    .summary-value {
+      text-align: right;
+      color: var(--gray-900);
+      font-size: 0.9rem;
+    }
+
+    .total-line {
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid var(--gray-300);
+      display: flex;
+      justify-content: space-between;
+      font-weight: 600;
+    }
+
+    .total-amount {
+      font-size: 1.2rem;
+    }
+
+    /* Success / confirmation */
+    .success-circle {
+      width: 64px;
+      height: 64px;
+      border-radius: 999px;
+      background: var(--green-100);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      color: var(--green-600);
+      font-size: 32px;
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    .text-sm {
+      font-size: 0.85rem;
+    }
+
+    .text-xs {
+      font-size: 0.75rem;
+    }
+
+    .text-gray-500 {
+      color: var(--gray-500);
+    }
+
+    .text-gray-600 {
+      color: var(--gray-600);
+    }
+
+    .text-gray-900 {
+      color: var(--gray-900);
+    }
+
+    .text-blue {
+      color: var(--blue-600);
+    }
+
+    .font-bold {
+      font-weight: 600;
+    }
+
+    /* Reminder */
+    .reminder {
+      padding: 12px 16px;
+      background: var(--blue-50);
+      border: 1px solid var(--blue-200);
+      border-radius: 10px;
+      font-size: 0.85rem;
+      color: var(--gray-700);
+      text-align: center;
+    }
+
+    /* Modals (Dialog + Payment) */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15,23,42,0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+    }
+
+    .modal-backdrop.active {
+      display: flex;
+    }
+
+    .modal {
+      background: #fff;
+      max-width: 480px;
+      width: calc(100% - 32px);
+      border-radius: 12px;
+      padding: 20px 20px 16px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      cursor: pointer;
+      color: var(--gray-400);
+      transition: background var(--transition-fast), color var(--transition-fast);
+    }
+
+    .modal-close:hover {
+      background: var(--gray-100);
+      color: var(--gray-600);
+    }
+
+    .modal-title {
+      margin: 0 0 4px;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .modal-body {
+      margin-top: 12px;
+      font-size: 0.9rem;
+    }
+
+    .paciente-item {
+      width: 100%;
+      text-align: left;
+      border-radius: 12px;
+      border: 2px solid var(--gray-200);
+      padding: 12px 14px;
+      margin-bottom: 10px;
+      background: #fff;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      font-size: 0.9rem;
+    }
+
+    .paciente-item:hover {
+      border-color: var(--blue-400, #60a5fa);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .paciente-item.seleccionado {
+      border-color: var(--blue-600);
+      background: var(--blue-50);
+      box-shadow: var(--shadow-md);
+    }
+
+    .paciente-item.dashed {
+      border-style: dashed;
+    }
+
+    .paciente-doc {
+      margin-top: 4px;
+      font-size: 0.78rem;
+      color: var(--gray-500);
+    }
+
+    .modal-actions {
+      margin-top: 16px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    /* Steps wrapper visibility */
+    .step-section {
+      display: none;
+      animation: fade-in 0.4s ease-out;
+    }
+
+    .step-section.active {
+      display: block;
+    }
+
+    /* Animations */
+    @keyframes fade-in {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="page-intro">
+      <p>Agenda tu cita médica de forma rápida y sencilla</p>
+    </div>
+
+    <!-- Indicador de pasos -->
+    <div class="steps">
+      <div class="steps-inner" id="steps-indicator">
+        <!-- Se rellena dinámicamente -->
+      </div>
+    </div>
+
+    <!-- PASO 1: Filtros y selección de médico -->
+    <section id="paso-1" class="step-section active">
+      <div class="grid gap-4">
+        <!-- Filtros -->
+        <div class="card card-strong-border">
+          <div class="flex-between mb-6">
+            <div class="card-header">
+              <div class="icon-circle">📍</div>
+              <div class="card-header-title">
+                <h3>Filtros de Búsqueda</h3>
+                <p>Selecciona especialidad y ubicación</p>
+              </div>
+            </div>
+
+            <button id="btn-seleccionar-paciente" class="btn btn-outline btn-sm" type="button">
+              <span class="icon">👤</span>
+              <span id="paciente-actual-text">Seleccionar Paciente</span>
+            </button>
+          </div>
+
+          <div class="grid grid-md-2 gap-4">
+            <div>
+              <label for="select-especialidad">Especialidad Médica</label>
+              <select id="select-especialidad"></select>
+            </div>
+            <div>
+              <label for="select-estado">Estado</label>
+              <select id="select-estado"></select>
+            </div>
+          </div>
+
+          <div id="filtros-resumen" class="mt-4" style="display:none;">
+            <div style="padding: 10px 12px; background: var(--blue-50); border: 1px solid var(--blue-200); border-radius: 8px; font-size: 0.8rem; color: var(--blue-800, #1e40af);">
+              Mostrando <span id="medicos-count"></span>
+              <span id="filtro-especialidad-text"></span>
+              <span id="filtro-estado-text"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Selección de médico -->
+        <div class="card card-strong-border">
+          <div class="card-header">
+            <div class="icon-circle">🩺</div>
+            <div class="card-header-title">
+              <h3>Seleccionar Médico</h3>
+              <p>Elige el médico de tu preferencia</p>
+            </div>
+          </div>
+
+          <div id="medicos-contenedor">
+            <div id="medicos-grid" class="grid grid-md-2 grid-lg-3 gap-4 mb-4">
+              <!-- Tarjetas de médicos -->
+            </div>
+
+            <div id="medicos-vacio" class="empty-state" style="display:none;">
+              <div class="empty-icon">🩺</div>
+              <div class="empty-title">No hay médicos disponibles</div>
+              <div class="empty-text">Intenta cambiar los filtros de búsqueda</div>
+            </div>
+
+            <!-- Paginación -->
+            <div id="paginacion" class="pagination" style="display:none;">
+              <button class="page-btn" id="btn-prev-pagina" type="button">‹</button>
+              <div id="paginas-numeros"></div>
+              <button class="page-btn" id="btn-next-pagina" type="button">›</button>
+            </div>
+          </div>
+
+          <div class="flex gap-3 mt-6 border-top" style="padding-top: 16px;">
+            <button id="btn-paso1-continuar" class="btn btn-lg btn-full" type="button" disabled>
+              Continuar
+              <span class="icon">›</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PASO 2: Fecha y Horario -->
+    <section id="paso-2" class="step-section">
+      <div class="card card-elevated" style="max-width: 880px; margin: 0 auto;">
+        <div class="card-header">
+          <div class="icon-circle">📅</div>
+          <div class="card-header-title">
+            <h3>Seleccionar Fecha y Horario</h3>
+            <p>Elige el día y hora de tu preferencia</p>
+          </div>
+        </div>
+
+        <div class="grid grid-md-2 gap-6">
+          <div>
+            <h4 class="mb-4 text-sm text-gray-900">Fecha de la Cita</h4>
+            <input type="date" id="fecha-cita" />
+          </div>
+
+          <div>
+            <div class="flex-between mb-4">
+              <h4 class="text-sm text-gray-900">Horarios Disponibles</h4>
+              <div class="flex gap-4">
+                <div class="badge-legend">
+                  <span class="badge-dot" style="background: var(--blue-600);"></span>
+                  <span>Disponible</span>
+                </div>
+                <div class="badge-legend">
+                  <span class="badge-dot" style="background: var(--gray-300);"></span>
+                  <span>Ocupado</span>
+                </div>
+              </div>
+            </div>
+            <div id="horarios-grid" class="horarios-grid"></div>
+            <p id="fecha-legible" class="text-xs text-gray-500 mt-4" style="padding: 10px 12px; background: var(--blue-50); border-radius: 8px; display:none;"></p>
+          </div>
+        </div>
+
+        <div class="flex gap-3 mt-6">
+          <button id="btn-paso2-atras" class="btn btn-outline btn-full btn-lg" type="button">
+            Atrás
+          </button>
+          <button id="btn-paso2-continuar" class="btn btn-full btn-lg" type="button" disabled>
+            Continuar al Pago
+            <span class="icon">›</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- PASO 3: Pago -->
+    <section id="paso-3" class="step-section">
+      <div class="card" style="max-width: 640px; margin: 0 auto;">
+        <div class="card-header">
+          <div class="icon-circle">💳</div>
+          <div class="card-header-title">
+            <h3>Información de Pago</h3>
+            <p>Procesa el pago de tu consulta</p>
+          </div>
+        </div>
+
+        <div>
+          <div style="background: var(--gray-50); border: 1px solid var(--gray-200); border-radius: 10px; padding: 16px;">
+            <div class="summary-line">
+              <span class="summary-label">Consulta Médica</span>
+              <span class="summary-value">$50.00</span>
+            </div>
+            <div class="summary-line">
+              <span class="summary-label">Servicio</span>
+              <span class="summary-value">$5.00</span>
+            </div>
+            <div class="total-line">
+              <span>Total</span>
+              <span class="total-amount">$55.00</span>
+            </div>
+          </div>
+
+          <div class="flex gap-3 mt-6">
+            <button id="btn-paso3-atras" class="btn btn-outline btn-full btn-lg" type="button">
+              Atrás
+            </button>
+            <button id="btn-abrir-pago" class="btn btn-full btn-lg" type="button">
+              Agendar Cita
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PASO 4: Confirmación -->
+    <section id="paso-4" class="step-section">
+      <div class="grid gap-6" style="max-width: 640px; margin: 0 auto;">
+        <div class="card text-center">
+          <div class="success-circle">✓</div>
+          <h2 style="margin: 0 0 4px; font-size: 1.4rem;" class="text-gray-900">Cita Agendada Exitosamente</h2>
+          <p class="text-gray-600 text-sm">Tu cita ha sido confirmada</p>
+        </div>
+
+        <div class="card">
+          <h3 style="margin: 0 0 10px; padding-bottom: 10px; border-bottom: 1px solid var(--gray-100); font-size: 1rem;">Detalles de la Cita</h3>
+          <div>
+            <div class="summary-line">
+              <span class="summary-label">Paciente</span>
+              <div class="summary-value">
+                <div id="resumen-paciente-nombre"></div>
+                <div id="resumen-paciente-doc" class="text-xs text-gray-500"></div>
+              </div>
+            </div>
+
+            <div class="summary-line">
+              <span class="summary-label">Médico</span>
+              <div class="summary-value">
+                <div id="resumen-medico-nombre"></div>
+                <div id="resumen-medico-esp" class="text-xs text-gray-500"></div>
+              </div>
+            </div>
+
+            <div class="summary-line">
+              <span class="summary-label">Centro Médico</span>
+              <div class="summary-value">
+                <div id="resumen-centro"></div>
+                <div id="resumen-estado" class="text-xs text-gray-500"></div>
+              </div>
+            </div>
+
+            <div class="summary-line">
+              <span class="summary-label">Fecha</span>
+              <span id="resumen-fecha" class="summary-value"></span>
+            </div>
+
+            <div class="summary-line">
+              <span class="summary-label">Horario</span>
+              <span id="resumen-horario" class="summary-value"></span>
+            </div>
+
+            <div class="summary-line">
+              <span class="summary-label">Monto Pagado</span>
+              <span class="summary-value" style="font-size: 1.1rem;">$55.00</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-md-2 gap-4">
+          <button id="btn-descargar" class="btn btn-full btn-lg" type="button">
+            <span class="icon">⬇</span>
+            Descargar Comprobante
+          </button>
+          <button id="btn-nueva-cita" class="btn btn-outline btn-full btn-lg" type="button">
+            <span class="icon">📅</span>
+            Agendar Nueva Cita
+          </button>
+        </div>
+
+        <div class="reminder">
+          <strong>Recordatorio:</strong> Te enviaremos una notificación 24 horas antes de tu cita.
+          Por favor llega 15 minutos antes de tu horario.
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal de selección de paciente -->
+  <div id="modal-paciente" class="modal-backdrop">
+    <div class="modal">
+      <button class="modal-close" type="button" data-close="modal-paciente">✕</button>
+      <h3 class="modal-title">Seleccionar Paciente</h3>
+      <div class="modal-body">
+        <p class="text-sm text-gray-600">¿Para quién es la cita?</p>
+        <div id="lista-pacientes" style="margin-top: 10px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de pago (equivalente a PaymentModal + Dialog) -->
+  <div id="modal-pago" class="modal-backdrop">
+    <div class="modal">
+      <button class="modal-close" type="button" data-close="modal-pago">✕</button>
+      <h3 class="modal-title">Confirmar Pago</h3>
+      <div class="modal-body">
+        <p class="text-sm text-gray-600">
+          Estás a punto de agendar tu cita. El monto total es <strong>$55.00</strong>.
+        </p>
+        <p class="text-sm text-gray-600" style="margin-top: 8px;">
+          Al confirmar, se registrará el pago y se agendará la cita.
+        </p>
+        <div class="modal-actions">
+          <button class="btn btn-outline btn-sm" type="button" data-close="modal-pago">Cancelar</button>
+          <button id="btn-confirmar-pago" class="btn btn-sm" type="button">Confirmar y Agendar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // --- Datos (idénticos a los de TSX) ---
+    const pacientes = [
+      { id: "1", nombre: "Juan Pérez", cedula: "V-12345678" },
+      { id: "2", nombre: "María González", cedula: "V-23456789" },
+      { id: "3", nombre: "Agregar nuevo paciente", cedula: "", isNew: true },
+    ];
+
+    const especialidades = [
+      "Todas",
+      "Cardiología", "Dermatología", "Pediatría", "Ginecología",
+      "Traumatología", "Oftalmología", "Medicina General", "Neurología"
+    ];
+
+    const estadosVenezuela = [
+      "Todos",
+      "Distrito Capital", "Miranda", "Carabobo", "Lara", "Zulia", "Aragua"
+    ];
+
+    const medicos = [
+      { id: "1", nombre: "Dr. Carlos Hernández", especialidad: "Cardiología",
+        centro: "Centro Médico Integral - Caracas", estado: "Distrito Capital", experiencia: "15 años" },
+      { id: "2", nombre: "Dra. Ana Rodríguez", especialidad: "Pediatría",
+        centro: "Clínica Santa María - Caracas", estado: "Distrito Capital", experiencia: "10 años" },
+      { id: "3", nombre: "Dr. Luis Martínez", especialidad: "Traumatología",
+        centro: "Centro Médico Integral - Valencia", estado: "Carabobo", experiencia: "12 años" },
+      { id: "4", nombre: "Dr. José García", especialidad: "Cardiología",
+        centro: "Centro Médico Integral - Valencia", estado: "Carabobo", experiencia: "18 años" },
+      { id: "5", nombre: "Dra. Carmen Suárez", especialidad: "Pediatría",
+        centro: "Hospital Central - Barquisimeto", estado: "Lara", experiencia: "8 años" },
+      { id: "6", nombre: "Dr. Roberto Díaz", especialidad: "Dermatología",
+        centro: "Clínica Los Robles - Caracas", estado: "Distrito Capital", experiencia: "20 años" },
+      { id: "7", nombre: "Dra. Patricia Morales", especialidad: "Ginecología",
+        centro: "Centro Médico Integral - Caracas", estado: "Distrito Capital", experiencia: "14 años" },
+      { id: "8", nombre: "Dr. Miguel Torres", especialidad: "Oftalmología",
+        centro: "Clínica La Visión - Valencia", estado: "Carabobo", experiencia: "16 años" },
+    ];
+
+    const horariosDisponibles = [
+      "08:00 AM", "08:30 AM", "09:00 AM", "09:30 AM", "10:00 AM",
+      "10:30 AM", "11:00 AM", "11:30 AM", "02:00 PM", "02:30 PM",
+      "03:00 PM", "03:30 PM", "04:00 PM", "04:30 PM"
+    ];
+
+    function getHorariosOcupados(fecha) {
+      if (!fecha) return [];
+      const dia = fecha.getDate();
+      const ocupados = [];
+      if (dia % 2 === 0) {
+        ocupados.push("09:00 AM", "10:30 AM", "02:00 PM");
+      } else {
+        ocupados.push("08:30 AM", "11:00 AM", "03:30 PM");
+      }
+      if (dia % 5 === 0) {
+        ocupados.push("09:30 AM", "02:30 PM", "04:00 PM");
+      }
+      return ocupados;
+    }
+
+    // --- Estado global (equivalente al useState) ---
+    let pasoActual = 1;
+    let modalPacienteAbierto = false;
+    let pacienteSeleccionado = "";
+    let especialidadSeleccionada = "Todas";
+    let estadoSeleccionado = "Todos";
+    let medicoSeleccionado = "";
+    let fechaSeleccionada = new Date();
+    let horarioSeleccionado = "";
+    let paginaActual = 1;
+    const medicosPorPagina = 6;
+
+    // --- Utilidades ---
+    function formatearFechaLegible(fecha) {
+      if (!fecha) return "";
+      return fecha.toLocaleDateString("es-ES", {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      });
+    }
+
+    function getMedicosFiltrados() {
+      let filtrados = [...medicos];
+      if (especialidadSeleccionada !== "Todas") {
+        filtrados = filtrados.filter(m => m.especialidad === especialidadSeleccionada);
+      }
+      if (estadoSeleccionado !== "Todos") {
+        filtrados = filtrados.filter(m => m.estado === estadoSeleccionado);
+      }
+      return filtrados;
+    }
+
+    // --- Render de pasos (indicador superior) ---
+    function renderSteps() {
+      const container = document.getElementById("steps-indicator");
+      const titulos = ["Médico", "Fecha", "Pago", "Confirmación"];
+      container.innerHTML = "";
+
+      titulos.forEach((titulo, index) => {
+        const stepNumber = index + 1;
+        const wrapper = document.createElement("div");
+        wrapper.className = "step-indicator";
+
+        const stateClass =
+          pasoActual > stepNumber ? "step-completed" :
+          pasoActual === stepNumber ? "step-active" : "";
+
+        wrapper.innerHTML = `
+          <div class="step-circle-wrap ${stateClass}">
+            <div class="step-circle">${pasoActual > stepNumber ? "" : stepNumber}</div>
+            <span class="step-title">${titulo}</span>
+          </div>
+          ${index < 3 ? '<div class="step-line"></div>' : ""}
+        `;
+        container.appendChild(wrapper);
+      });
+    }
+
+    // --- Render de selects de filtros ---
+    function renderSelects() {
+      const selEsp = document.getElementById("select-especialidad");
+      const selEst = document.getElementById("select-estado");
+      selEsp.innerHTML = "";
+      selEst.innerHTML = "";
+
+      especialidades.forEach(esp => {
+        const opt = document.createElement("option");
+        opt.value = esp;
+        opt.textContent = esp;
+        selEsp.appendChild(opt);
+      });
+      estadosVenezuela.forEach(est => {
+        const opt = document.createElement("option");
+        opt.value = est;
+        opt.textContent = est;
+        selEst.appendChild(opt);
+      });
+
+      selEsp.value = especialidadSeleccionada;
+      selEst.value = estadoSeleccionado;
+    }
+
+    // --- Render de médicos + paginación ---
+    function renderMedicos() {
+      const contenedor = document.getElementById("medicos-grid");
+      const vacio = document.getElementById("medicos-vacio");
+      const paginacion = document.getElementById("paginacion");
+      const paginasNumeros = document.getElementById("paginas-numeros");
+      const filtrosResumen = document.getElementById("filtros-resumen");
+      const medicosCountSpan = document.getElementById("medicos-count");
+      const filtroEspSpan = document.getElementById("filtro-especialidad-text");
+      const filtroEstSpan = document.getElementById("filtro-estado-text");
+
+      const medicosFiltrados = getMedicosFiltrados();
+      const totalPaginas = Math.ceil(medicosFiltrados.length / medicosPorPagina) || 1;
+      if (paginaActual > totalPaginas) paginaActual = totalPaginas;
+
+      const inicio = (paginaActual - 1) * medicosPorPagina;
+      const fin = inicio + medicosPorPagina;
+      const medicosPagina = medicosFiltrados.slice(inicio, fin);
+
+      contenedor.innerHTML = "";
+      paginasNumeros.innerHTML = "";
+
+      if (medicosFiltrados.length === 0) {
+        vacio.style.display = "block";
+        paginacion.style.display = "none";
+      } else {
+        vacio.style.display = "none";
+
+        medicosPagina.forEach(medico => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "medico-card" + (medicoSeleccionado === medico.id ? " seleccionado" : "");
+
+          btn.innerHTML = `
+            <div class="medico-header">
+              <div class="medico-avatar">🩺</div>
+              <div>
+                <p class="medico-name">${medico.nombre}</p>
+                <p class="medico-spec">${medico.especialidad}</p>
+              </div>
+            </div>
+            <p class="medico-center">${medico.centro}</p>
+          `;
+
+          btn.addEventListener("click", () => {
+            medicoSeleccionado = medico.id;
+            renderMedicos();
+            actualizarBotonPaso1();
+          });
+
+          contenedor.appendChild(btn);
+        });
+
+        if (totalPaginas > 1) {
+          paginacion.style.display = "flex";
+          for (let i = 1; i <= totalPaginas; i++) {
+            const pageBtn = document.createElement("button");
+            pageBtn.type = "button";
+            pageBtn.className = "page-btn" + (i === paginaActual ? " page-active" : "");
+            pageBtn.textContent = i;
+            pageBtn.addEventListener("click", () => {
+              paginaActual = i;
+              renderMedicos();
+            });
+            paginasNumeros.appendChild(pageBtn);
+          }
+
+          document.getElementById("btn-prev-pagina").disabled = paginaActual === 1;
+          document.getElementById("btn-next-pagina").disabled = paginaActual === totalPaginas;
+        } else {
+          paginacion.style.display = "none";
+        }
+      }
+
+      // Resumen de filtros
+      if (especialidadSeleccionada !== "Todas" || estadoSeleccionado !== "Todos") {
+        filtrosResumen.style.display = "block";
+        medicosCountSpan.textContent = medicosFiltrados.length + " médicos";
+        filtroEspSpan.textContent = especialidadSeleccionada !== "Todas" ? " de " + especialidadSeleccionada : "";
+        filtroEstSpan.textContent = estadoSeleccionado !== "Todos" ? " en " + estadoSeleccionado : "";
+      } else {
+        filtrosResumen.style.display = "none";
+      }
+    }
+
+    function actualizarBotonPaso1() {
+      const btn = document.getElementById("btn-paso1-continuar");
+      btn.disabled = !medicoSeleccionado || !pacienteSeleccionado;
+    }
+
+    // --- Render de lista de pacientes (modal) ---
+    function renderPacientes() {
+      const cont = document.getElementById("lista-pacientes");
+      cont.innerHTML = "";
+      pacientes.forEach(p => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        const seleccionado = pacienteSeleccionado === p.id;
+        btn.className = "paciente-item" +
+          (seleccionado ? " seleccionada" : "") +
+          (p.isNew ? " dashed" : "");
+        btn.innerHTML = `
+          <p>${p.nombre}</p>
+          ${p.cedula ? `<p class="paciente-doc">${p.cedula}</p>` : ""}
+        `;
+        btn.addEventListener("click", () => {
+          if (p.isNew) {
+            alert("Aquí podrías redirigir al formulario de 'Nuevo Paciente'.");
+            cerrarModal("modal-paciente");
+          } else {
+            pacienteSeleccionado = p.id;
+            const label = document.getElementById("paciente-actual-text");
+            label.textContent = p.nombre;
+            actualizarBotonPaso1();
+            cerrarModal("modal-paciente");
+          }
+        });
+        cont.appendChild(btn);
+      });
+    }
+
+    // --- Fecha y horarios ---
+    function initFechaInput() {
+      const inputFecha = document.getElementById("fecha-cita");
+      const hoy = new Date();
+      const yyyy = hoy.getFullYear();
+      const mm = String(hoy.getMonth() + 1).padStart(2, "0");
+      const dd = String(hoy.getDate()).padStart(2, "0");
+      const todayStr = `${yyyy}-${mm}-${dd}`;
+      inputFecha.min = todayStr;
+
+      // Valor inicial
+      const y = fechaSeleccionada.getFullYear();
+      const m = String(fechaSeleccionada.getMonth() + 1).padStart(2, "0");
+      const d = String(fechaSeleccionada.getDate()).padStart(2, "0");
+      inputFecha.value = `${y}-${m}-${d}`;
+      renderHorarios();
+      renderFechaLegible();
+    }
+
+    function renderFechaLegible() {
+      const p = document.getElementById("fecha-legible");
+      if (!fechaSeleccionada) {
+        p.style.display = "none";
+      } else {
+        p.style.display = "block";
+        p.textContent = formatearFechaLegible(fechaSeleccionada);
+      }
+    }
+
+    function renderHorarios() {
+      const grid = document.getElementById("horarios-grid");
+      grid.innerHTML = "";
+      const ocupados = getHorariosOcupados(fechaSeleccionada);
+
+      horariosDisponibles.forEach(horario => {
+        const ocupado = ocupados.includes(horario);
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "horario-btn" +
+          (ocupado ? " ocupado" : "") +
+          (horarioSeleccionado === horario ? " seleccionado" : "");
+        btn.textContent = horario;
+
+        if (!ocupado) {
+          btn.addEventListener("click", () => {
+            horarioSeleccionado = horario;
+            renderHorarios();
+            actualizarBotonPaso2();
+          });
+        }
+        grid.appendChild(btn);
+      });
+    }
+
+    function actualizarBotonPaso2() {
+      const btn = document.getElementById("btn-paso2-continuar");
+      btn.disabled = !fechaSeleccionada || !horarioSeleccionado;
+    }
+
+    // --- Cambio de pasos ---
+    function cambiarPaso(nuevoPaso) {
+      pasoActual = nuevoPaso;
+      const secciones = [1, 2, 3, 4];
+      secciones.forEach(num => {
+        const sec = document.getElementById("paso-" + num);
+        if (sec) {
+          sec.classList.toggle("active", num === pasoActual);
+        }
+      });
+      renderSteps();
+    }
+
+    // --- Modales ---
+    function abrirModal(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.add("active");
+    }
+
+    function cerrarModal(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.remove("active");
+    }
+
+    // --- Resumen final (paso 4) ---
+    function rellenarResumen() {
+      const pInfo = pacientes.find(p => p.id === pacienteSeleccionado);
+      const mInfo = medicos.find(m => m.id === medicoSeleccionado);
+
+      document.getElementById("resumen-paciente-nombre").textContent = pInfo ? pInfo.nombre : "";
+      document.getElementById("resumen-paciente-doc").textContent = pInfo && pInfo.cedula ? pInfo.cedula : "";
+
+      if (mInfo) {
+        document.getElementById("resumen-medico-nombre").textContent = mInfo.nombre;
+        document.getElementById("resumen-medico-esp").textContent = mInfo.especialidad;
+        document.getElementById("resumen-centro").textContent = mInfo.centro;
+        document.getElementById("resumen-estado").textContent = mInfo.estado;
+      } else {
+        document.getElementById("resumen-medico-nombre").textContent = "";
+        document.getElementById("resumen-medico-esp").textContent = "";
+        document.getElementById("resumen-centro").textContent = "";
+        document.getElementById("resumen-estado").textContent = "";
+      }
+
+      document.getElementById("resumen-fecha").textContent = formatearFechaLegible(fechaSeleccionada);
+      document.getElementById("resumen-horario").textContent = horarioSeleccionado || "";
+    }
+
+    // --- Listeners globales ---
+    document.addEventListener("DOMContentLoaded", () => {
+      // Steps
+      renderSteps();
+
+      // Filtros
+      renderSelects();
+      renderMedicos();
+      actualizarBotonPaso1();
+
+      document.getElementById("select-especialidad").addEventListener("change", e => {
+        especialidadSeleccionada = e.target.value;
+        paginaActual = 1;
+        renderMedicos();
+      });
+
+      document.getElementById("select-estado").addEventListener("change", e => {
+        estadoSeleccionado = e.target.value;
+        paginaActual = 1;
+        renderMedicos();
+      });
+
+      // Paginación
+      document.getElementById("btn-prev-pagina").addEventListener("click", () => {
+        paginaActual = Math.max(1, paginaActual - 1);
+        renderMedicos();
+      });
+      document.getElementById("btn-next-pagina").addEventListener("click", () => {
+        const totalPaginas = Math.ceil(getMedicosFiltrados().length / medicosPorPagina) || 1;
+        paginaActual = Math.min(totalPaginas, paginaActual + 1);
+        renderMedicos();
+      });
+
+      // Modal Paciente
+      document.getElementById("btn-seleccionar-paciente").addEventListener("click", () => {
+        renderPacientes();
+        abrirModal("modal-paciente");
+      });
+
+      document.querySelectorAll(".modal-close").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const id = btn.getAttribute("data-close");
+          if (id) cerrarModal(id);
+        });
+      });
+
+      document.querySelectorAll("[data-close]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const id = btn.getAttribute("data-close");
+          if (id) cerrarModal(id);
+        });
+      });
+
+      // Paso 1 -> 2
+      document.getElementById("btn-paso1-continuar").addEventListener("click", () => {
+        if (!pacienteSeleccionado || !medicoSeleccionado) return;
+        cambiarPaso(2);
+      });
+
+      // Paso 2 (fecha/horarios)
+      initFechaInput();
+
+      document.getElementById("fecha-cita").addEventListener("change", e => {
+        const val = e.target.value;
+        if (!val) {
+          fechaSeleccionada = null;
+        } else {
+          const [y, m, d] = val.split("-").map(Number);
+          fechaSeleccionada = new Date(y, m - 1, d);
+        }
+        horarioSeleccionado = "";
+        renderHorarios();
+        renderFechaLegible();
+        actualizarBotonPaso2();
+      });
+
+      document.getElementById("btn-paso2-atras").addEventListener("click", () => {
+        cambiarPaso(1);
+      });
+
+      document.getElementById("btn-paso2-continuar").addEventListener("click", () => {
+        if (!fechaSeleccionada || !horarioSeleccionado) return;
+        cambiarPaso(3);
+      });
+
+      // Paso 3
+      document.getElementById("btn-paso3-atras").addEventListener("click", () => {
+        cambiarPaso(2);
+      });
+
+      document.getElementById("btn-abrir-pago").addEventListener("click", () => {
+        abrirModal("modal-pago");
+      });
+
+      document.getElementById("btn-confirmar-pago").addEventListener("click", () => {
+        cerrarModal("modal-pago");
+        rellenarResumen();
+        cambiarPaso(4);
+      });
+
+      // Paso 4 acciones
+      document.getElementById("btn-descargar").addEventListener("click", () => {
+        alert("Aquí podrías generar y descargar un comprobante en PDF.");
+      });
+
+      document.getElementById("btn-nueva-cita").addEventListener("click", () => {
+        // Reset básico de estado
+        pasoActual = 1;
+        pacienteSeleccionado = "";
+        medicoSeleccionado = "";
+        especialidadSeleccionada = "Todas";
+        estadoSeleccionado = "Todos";
+        paginaActual = 1;
+        horarioSeleccionado = "";
+        fechaSeleccionada = new Date();
+
+        document.getElementById("paciente-actual-text").textContent = "Seleccionar Paciente";
+        renderSelects();
+        renderMedicos();
+        actualizarBotonPaso1();
+        initFechaInput();
+        actualizarBotonPaso2();
+        cambiarPaso(1);
+      });
+    });
+  </script>
+</body>
+</html>

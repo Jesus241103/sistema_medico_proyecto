@@ -4,8 +4,394 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login Médico</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+    *{margin:0;padding:0;box-sizing:border-box;font-family:"Montserrat",sans-serif;}
+    body{
+      width:100%;
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      background:#f0f4f3;
+      padding:20px;
+    }
+    .Contenedor{
+      width:1000px;
+      height:600px;
+      display:flex;
+      position:relative;
+      background-color:white;
+      border-radius:15px;
+      overflow:hidden;
+      box-shadow:0 0 10px rgba(0,0,0,0.3);
+      transition:0.5s ease-in-out;
+    }
+    .contenedor-form{
+      width:50%;
+      height:100%;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      background:#fff;
+      position:relative;
+      z-index:2;
+    }
+    .contenedor-form form{
+      width:100%;
+      max-width:420px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      padding:0 2.2rem;
+      gap:6px;
+    }
+    .contenedor-form h2{
+      margin-bottom:6px;
+      font-weight:600;
+      font-size:26px;
+      width:100%;
+      text-align:center;
+    }
+    .contenedor-form span.subtitle{
+      font-size:12px;
+      margin-bottom:10px;
+      color:#6b7280;
+      text-align:center;
+      width:100%;
+      max-width:420px;
+    }
+    .contenedor-form label{
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      color:#6b7280;
+      margin:2px 0;
+      width:100%;
+      max-width:360px;
+      text-align:left;
+    }
+    .contenedor-input{
+      width:100%;
+      max-width:360px;
+      height:44px;
+      margin-bottom:8px;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding:0 15px;
+      background-color:#eee;
+      border-radius:6px;
+    }
+    .contenedor-input input{
+      border:none;
+      outline:none;
+      width:100%;
+      height:100%;
+      background-color:inherit;
+      font-size:13px;
+    }
+    .contenedor-form a{
+      font-size:13px;
+      color:#3498db;
+      text-decoration:none;
+      margin-bottom:10px;
+      margin-top:2px;
+      align-self:flex-end;
+      width:100%;
+      max-width:360px;
+      text-align:right;
+    }
+    .button{
+      width:180px;
+      height:50px;
+      font-size:15px;
+      border:none;
+      border-radius:999px;
+      cursor:pointer;
+      margin-top:6px;
+      background-color:#0f5a98;
+      color:white;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:6px;
+      line-height:1;
+      padding:0;
+      font-weight:600;
+      box-shadow:0 2px 8px rgba(22,160,133,0.3);
+      transition:all 0.3s ease;
+    }
+    .button:hover{
+      background-color:#0f5a98;
+      box-shadow:0 4px 12px rgba(22,160,133,0.4);
+      transform:translateY(-2px);
+    }
+    .button:active{transform:translateY(0);}
+    .button[disabled]{opacity:.7;cursor:not-allowed;}
+    .spinner{
+      width:16px;height:16px;border-radius:999px;
+      border:2px solid rgba(255,255,255,.95);
+      border-right-color:transparent;
+      animation:spin .6s linear infinite;
+    }
+    .error-text{
+      width:100%;
+      max-width:360px;
+      font-size:12px;
+      color:#b91c1c;
+      min-height:16px;
+    }
+    .contenedor-welcome{
+      position:relative;
+      width:50%;
+      height:100%;
+      background-color:#0f5a98;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:white;
+      text-align:center;
+      padding:0 40px;
+    }
+    .contenedor-welcome h3{font-size:32px;margin-bottom:10px;}
+    .contenedor-welcome p{font-size:14px;line-height:1.4;}
+    @keyframes spin {to{transform:rotate(360deg);}}
+  </style>
 </head>
 <body>
-  <p>Login Médico (pendiente de implementación).</p>
+  <div class="Contenedor">
+    <div class="contenedor-form">
+      <form id="formularioLogin" autocomplete="on">
+        <h2>Iniciar sesión</h2>
+        <span class="subtitle">Accede con tu correo y contraseña.</span>
+
+        <label for="correoLogin">Correo electrónico</label>
+        <div class="contenedor-input">
+          <ion-icon name="mail-outline"></ion-icon>
+          <input type="email" id="correoLogin" autocomplete="email" required placeholder="tu@correo.com">
+        </div>
+
+        <label for="contrasenaLogin">Contraseña</label>
+        <div class="contenedor-input">
+          <ion-icon name="lock-closed-outline"></ion-icon>
+          <input type="password" id="contrasenaLogin" autocomplete="current-password" required placeholder="••••••••">
+        </div>
+
+        <a href="#" id="enlaceOlvidoContrasena">¿Olvidaste la contraseña?</a>
+
+        <div class="error-text" id="errorLogin"></div>
+
+        <button type="submit" class="button" id="botonLogin">Iniciar sesión</button>
+      </form>
+    </div>
+
+    <div class="contenedor-welcome">
+      <div>
+        <h3>Bienvenido</h3>
+        <p>Accede al panel de Médico.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    const formularioLogin = document.getElementById('formularioLogin');
+    const correoLogin = document.getElementById('correoLogin');
+    const contrasenaLogin = document.getElementById('contrasenaLogin');
+    const botonLogin = document.getElementById('botonLogin');
+    const errorLogin = document.getElementById('errorLogin');
+    const enlaceOlvidoContrasena = document.getElementById('enlaceOlvidoContrasena');
+    const API_BASE = '/medico';
+
+    const notificar = (icono, titulo, texto) => Swal.fire({
+      icon: icono,
+      title: titulo,
+      text: texto,
+      confirmButtonColor: '#0f5a98'
+    });
+
+    const requestJSON = async (endpoint, payload = {}) => {
+      const resp = await fetch(`${API_BASE}${endpoint}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify(payload)
+      });
+      const datos = await resp.json().catch(() => ({}));
+      return { ok: resp.ok, datos };
+    };
+
+    const establecerCarga = (cargando) => {
+      botonLogin.disabled = !!cargando;
+      botonLogin.innerHTML = cargando ? `<span class="spinner"></span>Ingresando...` : 'Iniciar sesión';
+    };
+
+    const normalizarCorreo = (correo) => String(correo || '').trim().toLowerCase();
+    const correoValido = (valor) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valor);
+
+    const intentarRedirigirSesion = async () => {
+      try {
+        const resp = await fetch(`${API_BASE}/me`, { credentials: 'same-origin' });
+        if (resp.ok) window.location.href = `${API_BASE}/acceso`;
+      } catch { /* no-op */ }
+    };
+
+    formularioLogin.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorLogin.textContent = '';
+
+      const correo = normalizarCorreo(correoLogin.value);
+      const password = contrasenaLogin.value;
+
+      if (!correoValido(correo)) {
+        errorLogin.textContent = 'Ingrese un correo válido.';
+        return notificar('warning', 'Datos inválidos', 'Correo electrónico incorrecto.');
+      }
+      if (!password || password.length < 6) {
+        errorLogin.textContent = 'La contraseña debe tener al menos 6 caracteres.';
+        return notificar('warning', 'Datos inválidos', 'Complete la contraseña.');
+      }
+
+      try {
+        establecerCarga(true);
+        const { datos } = await requestJSON('/login', { correo, password });
+        if (datos?.success) {
+          window.location.href = `${API_BASE}/acceso`;
+        } else {
+          const mensaje = datos?.error || 'No se pudo iniciar sesión.';
+          errorLogin.textContent = mensaje;
+          notificar('error', 'Error', mensaje);
+        }
+      } catch (err) {
+        errorLogin.textContent = 'Error de conexión, intente nuevamente.';
+        notificar('error', 'Error de conexión', 'No se pudo contactar al servidor.');
+      } finally {
+        establecerCarga(false);
+      }
+    });
+
+    enlaceOlvidoContrasena?.addEventListener('click', async (e) => {
+      e.preventDefault();
+      const paso1 = await Swal.fire({
+        title: 'Recuperar contraseña',
+        html: `
+          <input id="swal-recover-correo" class="swal2-input" placeholder="Correo electrónico" type="email">
+          <input id="swal-recover-cedula" class="swal2-input" placeholder="Cédula" type="number">
+        `,
+        focusConfirm: false,
+        showCancelButton: true,
+        confirmButtonText: 'Continuar',
+        cancelButtonText: 'Cancelar',
+        confirmButtonColor: '#16a085',
+        preConfirm: () => {
+          const correoEl = document.getElementById('swal-recover-correo');
+          const cedulaEl = document.getElementById('swal-recover-cedula');
+          const correo = normalizarCorreo(correoEl?.value);
+          const cedula = String(cedulaEl?.value || '').trim();
+          if (!correo || !cedula) {
+            Swal.showValidationMessage('Debes ingresar correo y cédula');
+            return false;
+          }
+          if (!correoValido(correo)) {
+            Swal.showValidationMessage('Correo inválido');
+            return false;
+          }
+          return { correo, cedula };
+        }
+      });
+
+      if (!paso1.value) return;
+      const { correo, cedula } = paso1.value;
+
+      try {
+        const { datos } = await requestJSON('/recover-lookup', { correo, cedula });
+
+        if (!datos?.found || !datos.questions || datos.questions.length < 3) {
+          return notificar('error', 'Usuario no encontrado', datos?.error || 'El usuario no tiene preguntas de seguridad configuradas.');
+        }
+
+        const preguntas = datos.questions;
+
+        const paso2 = await Swal.fire({
+          title: 'Preguntas de seguridad',
+          html: preguntas.map(q => `<div style="margin-bottom: 20px;"><label style="display: block; margin-bottom: 8px; font-size: 14px; color: #374151; text-align: center; font-weight: 600;">${q.pregunta}</label><input id="swal-q${q.posicion}" class="swal2-input" placeholder="Tu respuesta" style="margin: 0 auto; width: 100%; max-width: 400px;"></div>`).join(''),
+          focusConfirm: false,
+          showCancelButton: true,
+          confirmButtonText: 'Verificar respuestas',
+          cancelButtonText: 'Cancelar',
+          confirmButtonColor: '#16a085',
+          preConfirm: () => {
+            const respuestas = preguntas.map(q => document.getElementById(`swal-q${q.posicion}`)?.value?.trim() || '');
+            if (respuestas.some(r => !r)) {
+                Swal.showValidationMessage('Responde las tres preguntas');
+                return false;
+            }
+            return respuestas;
+          }
+        });
+
+        if (!paso2.value) return;
+
+        const { datos: datosVerificacion } = await requestJSON('/verify-answers', {
+          cedula: datos.cedula,
+          respuestas: paso2.value
+        });
+
+        if (!datosVerificacion?.success) {
+          return notificar('error', 'Respuestas incorrectas', datosVerificacion?.error || 'Las respuestas no coinciden con las registradas.');
+        }
+
+        const paso3 = await Swal.fire({
+          title: 'Nueva contraseña',
+          html: '<input id="swal-new-password" class="swal2-input" type="password" placeholder="Nueva contraseña" style="margin: 0 auto; width: 100%; max-width: 400px;"><input id="swal-confirm-password" class="swal2-input" type="password" placeholder="Confirmar contraseña" style="margin: 0 auto; width: 100%; max-width: 400px;">',
+          focusConfirm: false,
+          showCancelButton: true,
+          confirmButtonText: 'Cambiar contraseña',
+          cancelButtonText: 'Cancelar',
+          confirmButtonColor: '#16a085',
+          preConfirm: () => {
+            const nuevaContrasena = document.getElementById('swal-new-password')?.value || '';
+            const confirmarContrasena = document.getElementById('swal-confirm-password')?.value || '';
+            if (!nuevaContrasena || !confirmarContrasena) {
+                Swal.showValidationMessage('Debes completar ambos campos');
+                return false;
+            }
+            if (nuevaContrasena !== confirmarContrasena) {
+                Swal.showValidationMessage('Las contraseñas no coinciden');
+                return false;
+            }
+            if (nuevaContrasena.length < 6) {
+                Swal.showValidationMessage('La contraseña debe tener al menos 6 caracteres');
+                return false;
+            }
+            return { nuevaPassword: nuevaContrasena, confirmPassword: confirmarContrasena };
+          }
+        });
+
+        if (!paso3.value) return;
+
+        const { datos: datosFinales } = await requestJSON('/recover-password', {
+          cedula: datos.cedula,
+          respuestas: paso2.value,
+          nuevaPassword: paso3.value.nuevaPassword,
+          confirmPassword: paso3.value.confirmPassword
+        });
+
+        notificar(datosFinales?.success ? 'success' : 'error',
+            datosFinales?.success ? 'Contraseña actualizada' : 'Error',
+            datosFinales?.success ? 'Tu contraseña ha sido cambiada exitosamente.' : (datosFinales?.error || 'No se pudo cambiar la contraseña.'));
+      } catch (err) {
+        notificar('error', 'Error de conexión', 'Inténtalo nuevamente.');
+      }
+    });
+
+    intentarRedirigirSesion();
+
+  </script>
+
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
 </html>

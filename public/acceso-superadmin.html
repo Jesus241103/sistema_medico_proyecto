@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel Super Admin</title>
+  <style>
+    :root{ --bg:#f8fafc; --text:#0f172a; --muted:#64748b; --card:#fff; --border:#e5e7eb; --pri:#0f172a; }
+    *{ box-sizing:border-box; margin:0; padding:0; }
+    body{ font-family: system-ui,-apple-system,Segoe UI,Roboto,sans-serif; background:var(--bg); color:var(--text); }
+    .nav{ display:flex; align-items:center; justify-content:space-between; padding:.9rem 1.1rem; background:#fff; border-bottom:1px solid var(--border); position:sticky; top:0; }
+    .brand{ font-weight:700; font-size:1rem; }
+    .muted{ color:var(--muted); }
+    .logout{ background:#e11d48; color:#fff; border:none; border-radius:12px; padding:.55rem .95rem; cursor:pointer; font-weight:700; }
+    .logout:hover{ filter:brightness(1.04); }
+    .main{ padding:1.2rem; }
+    .card{ background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.1rem; max-width:760px; margin:1rem auto; box-shadow:0 6px 16px rgba(15,23,42,.06); }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="brand" id="nombreUsuario">Super Admin</div>
+    <button class="logout" id="botonSalir">Cerrar sesión</button>
+  </header>
+  <main class="main">
+    <section class="card">
+      <p class="muted">Bienvenido al panel de Super Administrador.</p>
+    </section>
+  </main>
+  <script>
+    async function verificarAutenticacion(){
+      try{
+        const res = await fetch('/superadmin/me', { cache: 'no-store' });
+        if(!res.ok || res.status === 403){
+          window.location.replace('/login-superadmin.html');
+          return false;
+        }
+        const data = await res.json().catch(()=>({}));
+        if(data && data.nombre){
+          document.getElementById('nombreUsuario').textContent = data.nombre;
+        }
+        return true;
+      }catch(e){
+        window.location.replace('/login-superadmin.html');
+        return false;
+      }
+    }
+
+    async function cargarUsuario(){
+      await verificarAutenticacion();
+    }
+
+    document.getElementById('botonSalir').addEventListener('click', async () => {
+      try{
+        await fetch('/superadmin/logout', { method: 'POST', cache: 'no-store' });
+      }catch(e){}
+      window.location.replace('/login-superadmin.html');
+    });
+
+    window.addEventListener('pageshow', (e) => {
+      if(e.persisted){
+        verificarAutenticacion();
+      }
+    });
+
+    cargarUsuario();
+  </script>
+</body>
+</html>
+
+
+

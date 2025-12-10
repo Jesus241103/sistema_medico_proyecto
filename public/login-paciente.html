@@ -714,6 +714,14 @@
             contenedor.classList.add('toggle');
         });
 
+        // Autoevaluación de sesión activa
+        const intentarRedirigirSesion = async () => {
+            try {
+                const resp = await fetch('/me', { credentials: 'same-origin' });
+                if (resp.ok) window.location.href = '/acceso';
+            } catch { /* no-op */ }
+        };
+
         // LOGIN
         formularioLogin.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -742,6 +750,8 @@
                 establecerCarga(enviarLogin, false, 'Iniciar sesión');
             }
         });
+
+        intentarRedirigirSesion();
 
         // Validaciones
         const validarSoloTexto = (valor, nombreCampo) => {
